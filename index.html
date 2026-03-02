@@ -55,17 +55,20 @@
         }
 
         .logo-container {
-            background-image: url('assets/images/logo.png');
             width: 80px;
             height: 80px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
             flex-shrink: 0;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            padding: 8px;
+            overflow: hidden;
             background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
         }
 
         .header-text {
@@ -814,7 +817,9 @@
         <!-- Header -->
         <div class="header">
             <div class="header-content">
-                <div class="logo-container" role="img" aria-label="Semper Admin Logo"></div>
+                <div class="logo-container">
+                    <img src="assets/images/logo.png" alt="Semper Admin Logo">
+                </div>
                 <div class="header-text">
                     <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATOR</h1>
                     <p class="subtitle">by Semper Admin</p>
