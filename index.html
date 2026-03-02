@@ -854,6 +854,24 @@
             </div>
         </div>
 
+        <!-- Corrective Action Workflow (MARADMIN 052/26) -->
+        <div class="reference-section">
+            <button class="collapsible-toggle" onclick="toggleWorkflow(this)" aria-expanded="false" aria-controls="workflowContent">
+                <span class="toggle-icon">&#9654;</span>
+                PEBD Corrective Action Workflow (MARADMIN 052/26)
+            </button>
+            <div id="workflowContent" class="collapsible-content">
+                <p style="margin: 12px 0 10px; font-size: 0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
+                <ol class="workflow-steps">
+                    <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
+                    <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
+                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
+                    <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
+                </ol>
+                <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
+            </div>
+        </div>
+
         <!-- Save/Load Section -->
         <div class="section">
             <h2 class="section-title">Save / Load Calculations</h2>
@@ -932,24 +950,6 @@
                         <option value="Officer OCC/PLC/NROTC/Academy">Officer OCC/PLC/NROTC/Academy</option>
                     </select>
                 </div>
-            </div>
-        </div>
-
-        <!-- Corrective Action Workflow (MARADMIN 052/26) -->
-        <div class="reference-section">
-            <button class="collapsible-toggle" onclick="toggleWorkflow(this)" aria-expanded="false" aria-controls="workflowContent">
-                <span class="toggle-icon">&#9654;</span>
-                PEBD Corrective Action Workflow (MARADMIN 052/26)
-            </button>
-            <div id="workflowContent" class="collapsible-content">
-                <p style="margin: 12px 0 10px; font-size: 0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
-                <ol class="workflow-steps">
-                    <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
-                    <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
-                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
-                    <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
-                </ol>
-                <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
             </div>
         </div>
 
