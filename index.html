@@ -847,9 +847,6 @@
                 <button class="mode-btn" onclick="setMode('advanced')" id="advancedModeBtn">
                     Advanced Mode
                 </button>
-                <button class="mode-btn" onclick="setMode('bulk')" id="bulkModeBtn">
-                    Bulk Processing
-                </button>
             </div>
         </div>
 
@@ -1238,7 +1235,7 @@
             
             // Show/hide advanced features
             const advancedFeatures = document.querySelectorAll('.advanced-features');
-            if (mode === 'advanced' || mode === 'bulk') {
+            if (mode === 'advanced') {
                 advancedFeatures.forEach(el => el.classList.add('show'));
             } else {
                 advancedFeatures.forEach(el => el.classList.remove('show'));
