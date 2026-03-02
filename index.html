@@ -847,14 +847,11 @@
                 <button class="mode-btn" onclick="setMode('advanced')" id="advancedModeBtn">
                     Advanced Mode
                 </button>
-                <button class="mode-btn" onclick="setMode('bulk')" id="bulkModeBtn">
-                    Bulk Processing
-                </button>
             </div>
         </div>
 
         <!-- Save/Load Section -->
-        <div class="section advanced-features">
+        <div class="section">
             <h2 class="section-title">Save / Load Calculations</h2>
             <div class="grid grid-4">
                 <div class="form-group">
@@ -1034,7 +1031,7 @@
         </div>
 
         <!-- Calculation History -->
-        <div class="section advanced-features">
+        <div class="section">
             <h2 class="section-title">Calculation History</h2>
             <div id="calculationHistory" class="saved-calculations">
                 <p>No calculations performed yet.</p>
@@ -1238,7 +1235,7 @@
             
             // Show/hide advanced features
             const advancedFeatures = document.querySelectorAll('.advanced-features');
-            if (mode === 'advanced' || mode === 'bulk') {
+            if (mode === 'advanced') {
                 advancedFeatures.forEach(el => el.classList.add('show'));
             } else {
                 advancedFeatures.forEach(el => el.classList.remove('show'));
