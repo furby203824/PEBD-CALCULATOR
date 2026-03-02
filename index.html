@@ -55,17 +55,20 @@
         }
 
         .logo-container {
-            background-image: url('assets/images/logo.png');
             width: 80px;
             height: 80px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
             flex-shrink: 0;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            padding: 8px;
+            overflow: hidden;
             background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
         }
 
         .header-text {
@@ -814,7 +817,9 @@
         <!-- Header -->
         <div class="header">
             <div class="header-content">
-                <div class="logo-container" role="img" aria-label="Semper Admin Logo"></div>
+                <div class="logo-container">
+                    <img src="assets/images/logo.png" alt="Semper Admin Logo">
+                </div>
                 <div class="header-text">
                     <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATOR</h1>
                     <p class="subtitle">by Semper Admin</p>
@@ -826,7 +831,6 @@
                         <a href="https://usmc.sharepoint-mil.us/sites/dcmra_mra_mi_missa/Lists/PAA/DispForm.aspx?ID=127&e=qD8Oj2" target="_blank">PAA 04-25 — Creditable Service &amp; PEBD</a>
                         <a href="https://www.marines.mil/News/Messages/Messages-Display/Article/4109657/marine-corps-total-force-system-advisory-to-identify-required-corrections-to-pay/" target="_blank">MARADMIN 052/26 — MCTFS PEBD Advisory</a>
                     </div>
-                    <p class="subtitle" style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">Last Updated: 02 Mar 2026</p>
                </div>
             </div>
             
@@ -847,6 +851,24 @@
                 <button class="mode-btn" onclick="setMode('advanced')" id="advancedModeBtn">
                     Advanced Mode
                 </button>
+            </div>
+        </div>
+
+        <!-- Corrective Action Workflow (MARADMIN 052/26) -->
+        <div class="reference-section">
+            <button class="collapsible-toggle" onclick="toggleWorkflow(this)" aria-expanded="false" aria-controls="workflowContent">
+                <span class="toggle-icon">&#9654;</span>
+                PEBD Corrective Action Workflow (MARADMIN 052/26)
+            </button>
+            <div id="workflowContent" class="collapsible-content">
+                <p style="margin: 12px 0 10px; font-size: 0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
+                <ol class="workflow-steps">
+                    <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
+                    <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
+                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
+                    <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
+                </ol>
+                <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
             </div>
         </div>
 
@@ -928,24 +950,6 @@
                         <option value="Officer OCC/PLC/NROTC/Academy">Officer OCC/PLC/NROTC/Academy</option>
                     </select>
                 </div>
-            </div>
-        </div>
-
-        <!-- Corrective Action Workflow (MARADMIN 052/26) -->
-        <div class="reference-section">
-            <button class="collapsible-toggle" onclick="toggleWorkflow(this)" aria-expanded="false" aria-controls="workflowContent">
-                <span class="toggle-icon">&#9654;</span>
-                PEBD Corrective Action Workflow (MARADMIN 052/26)
-            </button>
-            <div id="workflowContent" class="collapsible-content">
-                <p style="margin: 12px 0 10px; font-size: 0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
-                <ol class="workflow-steps">
-                    <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
-                    <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
-                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
-                    <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
-                </ol>
-                <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
             </div>
         </div>
 
@@ -2773,7 +2777,7 @@
                 calculationInfo: calculationResult,
                 inputData: collectAllInputData(),
                 exportTimestamp: new Date().toISOString(),
-                version: 'Semper Admin PEBD Calculator v2.1 with Time Loss - FIXED'
+                version: 'Semper Admin PEBD Calculator'
             };
             
             const jsonContent = JSON.stringify(exportData, null, 2);
@@ -2847,7 +2851,7 @@
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Marine Corps PEBD Calculation Report with Time Loss - FIXED</title>
+                    <title>Marine Corps PEBD Calculation Report</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; font-size: 11px; line-height: 1.3; }
                         .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid navy; padding-bottom: 10px; }
@@ -2874,7 +2878,6 @@
                 <body>
                     <div class="header">
                         <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATION REPORT</h1>
-                        <p class="subtitle">Semper Admin PEBD Calculator v2.1 - Enhanced Enterprise Edition with Time Loss - FIXED</p>
                         <p class="subtitle">References: PAA 04-25 &amp; MARADMIN 052/26 (19 Feb 2026)</p>
                         <p class="subtitle">Generated: ${data.calculationDate}</p>
                     </div>
@@ -2883,9 +2886,6 @@
                         <strong>OFFICIAL USE NOTICE:</strong> This calculation is for reference only. Official PEBD determinations must be validated through proper Marine Corps channels per PAA 04-25 and MARADMIN 052/26. For PEBD corrections, forward cases to MMPB-21 at <strong>SMB_Pay_Entry_Base_Date_Correction@usmc.mil</strong>.
                     </div>
 
-                    <div class="fix-notice">
-                        <strong>CALCULATION FIX APPLIED:</strong> This version uses corrected continuous period grouping logic with proper inclusive day calculations per block, not per period.
-                    </div>
 
                     ${data.totalTimeLossDays > 0 ? `
                     <div class="time-loss-notice">
@@ -2904,7 +2904,7 @@
                     </div>
 
                     <div class="section summary">
-                        <div class="section-title">CALCULATION RESULTS - FIXED ALGORITHM</div>
+                        <div class="section-title">CALCULATION RESULTS</div>
                         <table class="calc-table">
                             <tr><th>Calculated PEBD</th><td style="font-size: 14px; font-weight: bold; color: navy;">${data.calculatedPEBD}</td></tr>
                             <tr><th>Net Creditable Service</th><td>${String(data.years).padStart(2, '0')} years, ${String(data.months).padStart(2, '0')} months, ${String(data.days).padStart(2, '0')} days</td></tr>
@@ -2915,7 +2915,7 @@
                     </div>
 
                     <div class="section">
-                        <div class="section-title">FIXED CALCULATION BREAKDOWN</div>
+                        <div class="section-title">CALCULATION BREAKDOWN</div>
                         <table class="calc-table">
                             <tr><th>Calculation Step</th><th>Value</th></tr>
                             <tr><td>Total Creditable Days (Raw)</td><td>${data.totalCreditableDays} days</td></tr>
@@ -2963,7 +2963,7 @@
                             <li>Submit for official PEBD determination through proper channels per MARADMIN 052/26</li>
                         </ul>
                         <p style="text-align: center; margin-top: 15px;">
-                            <em>Generated by Semper Admin PEBD Calculator v2.1 - Enhanced Enterprise Edition with Time Loss - FIXED</em><br>
+                            <em>Generated by Semper Admin PEBD Calculator</em><br>
                             <em>Compliant with PAA 04-25 &amp; MARADMIN 052/26</em><br>
                             <em>https://linktr.ee/semperadmin</em>
                         </p>
