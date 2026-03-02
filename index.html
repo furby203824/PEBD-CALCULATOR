@@ -715,6 +715,50 @@
             text-transform: uppercase;
         }
 
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            max-width: 360px;
+            line-height: 1.4;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            background: var(--success-green);
+        }
+
+        .toast-error {
+            background: var(--danger-red);
+        }
+
+        .toast-warning {
+            background: var(--warning-orange);
+        }
+
+        .toast-info {
+            background: var(--info-blue);
+        }
+
         /* Results modal */
         .modal-overlay {
             display: none;
@@ -896,6 +940,7 @@
     </style>
 </head>
 <body>
+    <div id="toastContainer" class="toast-container"></div>
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -1213,6 +1258,20 @@
     </div>
 
     <script>
+        // Toast notification system
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
         // Enhanced Service Type Definitions from PAA 04-25 (Complete List)
         const SERVICE_TYPES = {
             "Regular Army": { creditable: true, category: "Active" },
@@ -1806,7 +1865,7 @@
             const tbody = document.getElementById('periodsBody');
             
             if (servicePeriodCount >= 20) {
-                alert('Maximum 20 service periods allowed');
+                showToast('Maximum 20 service periods allowed', 'warning');
                 return;
             }
             
@@ -1855,7 +1914,7 @@
             const tbody = document.getElementById('timeLossBody');
             
             if (timeLossPeriodCount >= 10) {
-                alert('Maximum 10 time loss periods allowed');
+                showToast('Maximum 10 time loss periods allowed', 'warning');
                 return;
             }
             
@@ -1982,7 +2041,7 @@
                 validationSummary.classList.remove('hidden');
             } else {
                 validationSummary.classList.add('hidden');
-                alert('All periods validated successfully.');
+                showToast('All periods validated successfully.', 'success');
             }
             
             return !hasErrors;
@@ -2319,7 +2378,7 @@
             } catch (error) {
                 // Remove loading state
                 if (event.target) event.target.classList.remove('loading');
-                alert('Error in calculation: ' + error.message);
+                showToast('Error in calculation: ' + error.message, 'error', 5000);
             }
         }
 
@@ -2580,12 +2639,12 @@
         function saveCalculation() {
             const name = document.getElementById('calculationName').value.trim();
             if (!name) {
-                alert('Please enter a name for this calculation');
+                showToast('Please enter a name for this calculation', 'warning');
                 return;
             }
             
             if (!calculationResult) {
-                alert('Please calculate PEBD first before saving');
+                showToast('Please calculate PEBD first before saving', 'warning');
                 return;
             }
             
@@ -2600,7 +2659,7 @@
             savedCalculations.push(savedCalc);
             localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations));
             
-            alert('Calculation saved successfully!');
+            showToast('Calculation saved successfully!', 'success');
             document.getElementById('calculationName').value = '';
         }
 
@@ -2695,7 +2754,7 @@
                 });
             }
             
-            alert('Calculation loaded successfully!');
+            showToast('Calculation loaded successfully!', 'success');
         }
 
         // Delete calculation
@@ -2719,7 +2778,7 @@
         // Export to CSV (updated for time loss)
         function exportToCSV() {
             if (!calculationResult) {
-                alert('Please calculate PEBD first before exporting');
+                showToast('Please calculate PEBD first before exporting', 'warning');
                 return;
             }
             
@@ -2873,10 +2932,10 @@
                             }
                         }
                         
-                        alert('CSV imported successfully!');
+                        showToast('CSV imported successfully!', 'success');
                     }
                 } catch (error) {
-                    alert('Error importing CSV: ' + error.message);
+                    showToast('Error importing CSV: ' + error.message, 'error', 5000);
                 }
             };
             reader.readAsText(file);
