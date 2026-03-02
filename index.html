@@ -554,6 +554,163 @@
             color: #6b7280;
             font-style: italic;
         }
+
+        /* Guidance and reference sections */
+        .guidance-banner {
+            background: #f0f7ff;
+            border: 1px solid #d0e2f2;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .guidance-banner strong {
+            color: var(--marine-gray);
+        }
+
+        .reference-section {
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid var(--info-blue);
+            border-radius: 0 8px 8px 0;
+            padding: 20px 24px;
+            margin-bottom: 30px;
+        }
+
+        .reference-section .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .collapsible-toggle {
+            background: none;
+            border: none;
+            color: var(--info-blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s ease;
+        }
+
+        .collapsible-toggle:hover {
+            color: #138496;
+        }
+
+        .collapsible-toggle:focus {
+            outline: 2px solid var(--marine-gold);
+            outline-offset: 2px;
+        }
+
+        .collapsible-toggle .toggle-icon {
+            display: inline-block;
+            transition: transform 0.2s ease;
+            font-size: 0.75rem;
+        }
+
+        .collapsible-toggle.expanded .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-content.expanded {
+            max-height: 600px;
+        }
+
+        .workflow-steps {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .workflow-steps li {
+            margin-bottom: 8px;
+        }
+
+        .workflow-note {
+            margin-top: 12px;
+            color: #6b7280;
+            font-size: 0.82rem;
+            font-style: italic;
+        }
+
+        .time-loss-description {
+            margin-bottom: 20px;
+            color: var(--danger-red);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            padding: 20px 0 10px;
+            margin-top: 10px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.82rem;
+            color: #6b7280;
+        }
+
+        .app-footer a {
+            color: var(--marine-gray);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .header-references {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .header-references a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            transition: border-color 0.2s ease;
+        }
+
+        .header-references a:hover {
+            border-color: white;
+            color: white;
+        }
+
+        .header-compliance {
+            display: inline-flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .compliance-badge {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
         
         @media (max-width: 768px) {
             .container {
@@ -660,17 +817,23 @@
                 <div class="logo-container" role="img" aria-label="Semper Admin Logo"></div>
                 <div class="header-text">
                     <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATOR</h1>
-                    <p class="subtitle">by Semper Admin - PAA 04-25 &amp; MARADMIN 052/26 Compliant (Enhanced Enterprise Edition with Time Loss)</p>
-                    <p><a href="https://usmc.sharepoint-mil.us/sites/dcmra_mra_mi_missa/Lists/PAA/DispForm.aspx?ID=127&e=qD8Oj2" target="_blank" style="color: white; text-decoration: underline;">PAA 04-25 - Administrative Guidance on Creditable Service and PEBD</a></p>
-                    <p><a href="https://www.marines.mil/News/Messages/Messages-Display/Article/4109657/marine-corps-total-force-system-advisory-to-identify-required-corrections-to-pay/" target="_blank" style="color: white; text-decoration: underline;">MARADMIN 052/26 - MCTFS Advisory for PEBD Corrections (19 Feb 2026)</a></p>
-                    <p class="subtitle">Last Updated: 20260302</p>
+                    <p class="subtitle">by Semper Admin</p>
+                    <div class="header-compliance">
+                        <span class="compliance-badge">PAA 04-25</span>
+                        <span class="compliance-badge">MARADMIN 052/26</span>
+                    </div>
+                    <div class="header-references">
+                        <a href="https://usmc.sharepoint-mil.us/sites/dcmra_mra_mi_missa/Lists/PAA/DispForm.aspx?ID=127&e=qD8Oj2" target="_blank">PAA 04-25 — Creditable Service &amp; PEBD</a>
+                        <a href="https://www.marines.mil/News/Messages/Messages-Display/Article/4109657/marine-corps-total-force-system-advisory-to-identify-required-corrections-to-pay/" target="_blank">MARADMIN 052/26 — MCTFS PEBD Advisory</a>
+                    </div>
+                    <p class="subtitle" style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">Last Updated: 02 Mar 2026</p>
                </div>
             </div>
             
             <div class="security-notice">
-                <h4>🔒 OFFICIAL USE NOTICE</h4>
+                <h4>OFFICIAL USE NOTICE</h4>
                 <p>This tool provides estimates only. Official PEBD determinations must be validated through proper Marine Corps channels per PAA 04-25. Do not input classified or sensitive personal information.</p>
-                <p><strong>⚠️ DODFMR Chapter 1 Rule:</strong> Time loss periods only affect <strong>Enlisted Marines</strong>. Officers' PEBDs are not changed by time loss periods.</p>
+                <p><strong>DODFMR Chapter 1 Rule:</strong> Time loss periods only affect <strong>Enlisted Marines</strong>. Officers' PEBDs are not changed by time loss periods.</p>
             </div>
         </div>
 
@@ -679,20 +842,20 @@
             <h3 style="margin-bottom: 15px;">Select Calculation Mode</h3>
             <div class="mode-buttons">
                 <button class="mode-btn active" onclick="setMode('basic')" id="basicModeBtn">
-                    📱 Basic Mode
+                    Basic Mode
                 </button>
                 <button class="mode-btn" onclick="setMode('advanced')" id="advancedModeBtn">
-                    🔧 Advanced Mode
+                    Advanced Mode
                 </button>
                 <button class="mode-btn" onclick="setMode('bulk')" id="bulkModeBtn">
-                    📊 Bulk Processing
+                    Bulk Processing
                 </button>
             </div>
         </div>
 
         <!-- Save/Load Section -->
         <div class="section advanced-features">
-            <h2 class="section-title">💾 Save/Load Calculations</h2>
+            <h2 class="section-title">Save / Load Calculations</h2>
             <div class="grid grid-4">
                 <div class="form-group">
                     <label for="calculationName">Calculation Name:</label>
@@ -700,15 +863,15 @@
                 </div>
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <button class="btn-info" onclick="saveCalculation()">💾 Save Current</button>
+                    <button class="btn-info" onclick="saveCalculation()">Save Current</button>
                 </div>
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <button class="btn-secondary" onclick="showSavedCalculations()">📋 View Saved</button>
+                    <button class="btn-secondary" onclick="showSavedCalculations()">View Saved</button>
                 </div>
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <button class="btn-secondary" onclick="clearAllSaved()">🗑️ Clear All</button>
+                    <button class="btn-secondary" onclick="clearAllSaved()">Clear All</button>
                 </div>
             </div>
             <div id="savedCalculations" class="saved-calculations hidden"></div>
@@ -716,23 +879,23 @@
 
         <!-- Import/Export Section -->
         <div class="section advanced-features">
-            <h2 class="section-title">📁 Import/Export Data</h2>
+            <h2 class="section-title">Import / Export Data</h2>
             <div class="import-export-section">
                 <div class="grid grid-3">
                     <div class="form-group">
                         <label>Import from CSV:</label>
                         <div class="file-input-group">
                             <input type="file" class="file-input" id="csvImport" accept=".csv" onchange="importCSV(event)">
-                            <label for="csvImport" class="file-input-label">📄 Select CSV File</label>
+                            <label for="csvImport" class="file-input-label">Select CSV File</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>&nbsp;</label>
-                        <button class="btn-info" onclick="exportToCSV()">📤 Export to CSV</button>
+                        <button class="btn-info" onclick="exportToCSV()">Export to CSV</button>
                     </div>
                     <div class="form-group">
                         <label>&nbsp;</label>
-                        <button class="btn-info" onclick="downloadTemplate()">📋 Download Template</button>
+                        <button class="btn-info" onclick="downloadTemplate()">Download Template</button>
                     </div>
                 </div>
             </div>
@@ -740,9 +903,9 @@
 
         <!-- Marine Information -->
         <div class="section">
-            <h2 class="section-title">👤 MARINE INFORMATION</h2>
-            <div style="background: #e3f2fd; border: 1px solid #90caf9; border-radius: 8px; padding: 12px; margin-bottom: 20px;">
-                <p style="margin: 0; font-size: 0.9rem;"><strong>📋 MCTFS D188 Remark:</strong> Per MARADMIN 052/26, a Marine's PEBD must be supported by periods of creditable service as documented in the <strong>MCTFS D188 remark</strong>. Use the D188 remark and Official Military Personnel File (OMPF) as your source documents when entering service periods below.</p>
+            <h2 class="section-title">MARINE INFORMATION</h2>
+            <div class="guidance-banner">
+                <strong>MCTFS D188 Remark:</strong> Per MARADMIN 052/26, a Marine's PEBD must be supported by periods of creditable service as documented in the <strong>MCTFS D188 remark</strong>. Use the D188 remark and Official Military Personnel File (OMPF) as your source documents when entering service periods below.
             </div>
             <div class="grid grid-3">
                 <div class="form-group">
@@ -772,29 +935,32 @@
         </div>
 
         <!-- Corrective Action Workflow (MARADMIN 052/26) -->
-        <div class="section" style="border-left: 4px solid var(--info-blue);">
-            <h2 class="section-title" style="color: var(--info-blue);">📬 PEBD CORRECTIVE ACTION WORKFLOW (MARADMIN 052/26)</h2>
-            <div style="font-size: 0.9rem; line-height: 1.7;">
-                <p style="margin-bottom: 10px;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator, follow the corrective action workflow below:</p>
-                <ol style="margin: 0; padding-left: 20px;">
+        <div class="reference-section">
+            <button class="collapsible-toggle" onclick="toggleWorkflow(this)" aria-expanded="false" aria-controls="workflowContent">
+                <span class="toggle-icon">&#9654;</span>
+                PEBD Corrective Action Workflow (MARADMIN 052/26)
+            </button>
+            <div id="workflowContent" class="collapsible-content">
+                <p style="margin: 12px 0 10px; font-size: 0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
+                <ol class="workflow-steps">
                     <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
                     <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
-                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a> for validation and correction.</li>
+                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
                     <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
                 </ol>
-                <p style="margin-top: 10px; color: #6b7280; font-style: italic;">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
+                <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
             </div>
         </div>
 
         <!-- Validation Summary -->
         <div id="validationSummary" class="validation-summary hidden">
-            <h4>⚠️ Validation Issues Found:</h4>
+            <h4>Validation Issues Found:</h4>
             <ul id="validationIssues"></ul>
         </div>
 
         <!-- Service Periods -->
         <div class="section">
-            <h2 class="section-title">📋 CREDITABLE SERVICE PERIODS</h2>
+            <h2 class="section-title">CREDITABLE SERVICE PERIODS</h2>
             <div class="table-container">
                 <table id="periodsTable" role="table" aria-label="Service periods entry table">
                     <thead>
@@ -815,15 +981,15 @@
                 </table>
             </div>
             <div class="add-period-container">
-                <button class="btn-info" onclick="addServicePeriod()">➕ Add Service Period</button>
-                <button class="btn-secondary advanced-features" onclick="validateAllPeriods()">✅ Validate All</button>
+                <button class="btn-info" onclick="addServicePeriod()">+ Add Service Period</button>
+                <button class="btn-secondary advanced-features" onclick="validateAllPeriods()">Validate All</button>
             </div>
         </div>
 
         <!-- Time Loss Periods -->
         <div class="section time-loss-section">
-            <h2 class="section-title time-loss">⏱️ TIME LOSS PERIODS</h2>
-            <p style="margin-bottom: 20px; color: var(--danger-red); font-weight: 600;">
+            <h2 class="section-title time-loss">TIME LOSS PERIODS</h2>
+            <p class="time-loss-description">
                 Record periods of lost time (AWOL, confinement, suspension, etc.) that reduce creditable service
             </p>
             <div class="table-container">
@@ -847,44 +1013,42 @@
                 </table>
             </div>
             <div class="add-period-container">
-                <button class="btn-danger" onclick="addTimeLossPeriod()">➕ Add Time Loss Period</button>
+                <button class="btn-danger" onclick="addTimeLossPeriod()">+ Add Time Loss Period</button>
             </div>
         </div>
 
         <!-- Control Buttons -->
         <div class="button-container">
             <button class="btn-primary" onclick="calculatePEBD()">
-                🧮 Calculate PEBD
+                Calculate PEBD
             </button>
             <button class="btn-success" id="printBtn" onclick="printReport()" disabled>
-                🖨️ Print Report
+                Print Report
             </button>
             <button class="btn-info" id="exportBtn" onclick="exportCalculation()" disabled>
-                📤 Export Results
+                Export Results
             </button>
             <button class="btn-secondary" onclick="resetAll()">
-                🔄 Reset All
+                Reset All
             </button>
         </div>
 
         <!-- Calculation History -->
         <div class="section advanced-features">
-            <h2 class="section-title">📈 Calculation History</h2>
+            <h2 class="section-title">Calculation History</h2>
             <div id="calculationHistory" class="saved-calculations">
                 <p>No calculations performed yet.</p>
             </div>
         </div>
 
-        <div style="display: flex; justify-content: center;">
-            <p style="font-size: 0.9rem; color: #e40b0b;">
-              Follow Semper Admin on all platforms: <a href="https://linktr.ee/semperadmin" target="_blank" style="color: #1e40af; text-decoration: underline;">https://linktr.ee/semperadmin</a>
-            </p>
+        <div class="app-footer">
+            <p>Semper Admin PEBD Calculator &mdash; <a href="https://linktr.ee/semperadmin" target="_blank">semperadmin</a> &nbsp;|&nbsp; <a href="https://semperadmin.github.io/Sentinel/#detail/pebd-calculator/todo" target="_blank">Submit Feedback</a></p>
         </div>
 
         <!-- Results -->
         <div id="results" class="hidden">
             <div class="results">
-                <h2 class="section-title">📊 CALCULATION BREAKDOWN</h2>
+                <h2 class="section-title">CALCULATION BREAKDOWN</h2>
                 
                 <!-- Summary -->
                 <div class="result-highlight">
@@ -1343,14 +1507,14 @@
                 let validationIcon = '';
                 
                 if (validation.errors.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-invalid">❌</span>';
+                    validationIcon = '<span class="validation-icon validation-invalid">&times;</span>';
                     dayDisplay = 'Error';
                 } else if (validation.warnings.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-warning">⚠️</span>';
+                    validationIcon = '<span class="validation-icon validation-warning">!</span>';
                 } else if (days > 0) {
-                    validationIcon = '<span class="validation-icon validation-valid">✅</span>';
+                    validationIcon = '<span class="validation-icon validation-valid">&check;</span>';
                 }
-                
+
                 daysCell.innerHTML = dayDisplay + validationIcon;
             }
         }
@@ -1411,14 +1575,14 @@
                 let validationIcon = '';
                 
                 if (validation.errors.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-invalid">❌</span>';
+                    validationIcon = '<span class="validation-icon validation-invalid">&times;</span>';
                     dayDisplay = 'Error';
                 } else if (validation.warnings.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-warning">⚠️</span>';
+                    validationIcon = '<span class="validation-icon validation-warning">!</span>';
                 } else if (days > 0) {
-                    validationIcon = '<span class="validation-icon validation-valid">✅</span>';
+                    validationIcon = '<span class="validation-icon validation-valid">&check;</span>';
                 }
-                
+
                 daysCell.innerHTML = dayDisplay + validationIcon;
             }
         }
@@ -1536,7 +1700,7 @@
                     <input type="text" placeholder="Reason/Details..." data-timeloss="${newIndex}" data-field="notes" aria-label="Notes for time loss period ${newIndex + 1}">
                 </td>
                 <td role="gridcell">
-                    <button class="btn-small btn-danger" onclick="removeTimeLossPeriod(${newIndex})" title="Remove this time loss period">🗑️</button>
+                    <button class="btn-small btn-danger" onclick="removeTimeLossPeriod(${newIndex})" title="Remove this time loss period">Remove</button>
                 </td>
             `;
         }
@@ -1597,7 +1761,7 @@
                     <input type="text" placeholder="Notes..." data-period="${newIndex}" data-field="notes" aria-label="Notes for period ${newIndex + 1}">
                 </td>
                 <td role="gridcell">
-                    <button class="btn-small btn-secondary" onclick="removeServicePeriod(${newIndex})" title="Remove this period">🗑️</button>
+                    <button class="btn-small btn-secondary" onclick="removeServicePeriod(${newIndex})" title="Remove this period">Remove</button>
                 </td>
             `;
             
@@ -1737,7 +1901,7 @@
                 validationSummary.classList.remove('hidden');
             } else {
                 validationSummary.classList.add('hidden');
-                alert('✅ All periods validated successfully!');
+                alert('All periods validated successfully.');
             }
             
             return !hasErrors;
@@ -2206,8 +2370,8 @@
                     }
                     
                     // Only show Officer Time column if Marine is an Officer
-                    const officerTimeColumn = data.marineStatus === 'Officer' ? 
-                        `<td style="text-align: center;">${detail.isOfficerTime ? '✅' : '❌'}</td>` : '';
+                    const officerTimeColumn = data.marineStatus === 'Officer' ?
+                        `<td style="text-align: center;">${detail.isOfficerTime ? 'Yes' : 'No'}</td>` : '';
                     
                     return `
                         <tr>
@@ -2230,7 +2394,7 @@
                     timeLossAnalysisBody.innerHTML += `
                         <tr style="background-color: #e8f5e9;">
                             <td colspan="8" style="text-align: center; font-weight: bold; padding: 10px;">
-                                📋 Time loss is applied by default. Check "Officer Time?" to exclude specific periods that occurred during officer service.
+                                Note: Time loss is applied by default. Check "Officer Time?" to exclude specific periods that occurred during officer service.
                             </td>
                         </tr>
                     `;
@@ -2238,7 +2402,7 @@
                     timeLossAnalysisBody.innerHTML += `
                         <tr style="background-color: #e8f5e9;">
                             <td colspan="7" style="text-align: center; font-weight: bold; padding: 10px;">
-                                📋 Time loss periods are applied for all deductible types.
+                                Note: Time loss periods are applied for all deductible types.
                             </td>
                         </tr>
                     `;
@@ -2845,6 +3009,15 @@
             }
         }
 
+        // Toggle collapsible workflow section
+        function toggleWorkflow(btn) {
+            const content = document.getElementById('workflowContent');
+            const isExpanded = content.classList.contains('expanded');
+            content.classList.toggle('expanded');
+            btn.classList.toggle('expanded');
+            btn.setAttribute('aria-expanded', !isExpanded);
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize with one service period and empty time loss
@@ -2888,43 +3061,5 @@
         });
     </script>
 
-<button id="feedbackBtn" class="feedback-btn" title="Share Feedback">💬 Feedback</button>
-<style>
-  .feedback-btn {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background: linear-gradient(135deg, #c41e3a 0%, #8B0000 100%);
-    color: white;
-    border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .feedback-btn:hover {
-    background: linear-gradient(135deg, #8B0000 0%, #5c0000 100%);
-    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.4);
-    transform: translateY(-2px);
-  }
-
-  .feedback-btn:active {
-    transform: translateY(0);
-  }
-</style>
-<script>
-document.getElementById('feedbackBtn').addEventListener('click', function() {
-    window.location.href = "https://semperadmin.github.io/Sentinel/#detail/pebd-calculator/todo";
-});
-</script>
 </body>
 </html>
