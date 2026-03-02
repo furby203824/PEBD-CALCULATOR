@@ -660,9 +660,10 @@
                 <div class="logo-container" role="img" aria-label="Semper Admin Logo"></div>
                 <div class="header-text">
                     <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATOR</h1>
-                    <p class="subtitle">by Semper Admin - PAA 04-25 Compliant (Enhanced Enterprise Edition with Time Loss)</p>
+                    <p class="subtitle">by Semper Admin - PAA 04-25 &amp; MARADMIN 052/26 Compliant (Enhanced Enterprise Edition with Time Loss)</p>
                     <p><a href="https://usmc.sharepoint-mil.us/sites/dcmra_mra_mi_missa/Lists/PAA/DispForm.aspx?ID=127&e=qD8Oj2" target="_blank" style="color: white; text-decoration: underline;">PAA 04-25 - Administrative Guidance on Creditable Service and PEBD</a></p>
-                    <p class="subtitle">bLast Updated: 20250725</p>
+                    <p><a href="https://www.marines.mil/News/Messages/Messages-Display/Article/4109657/marine-corps-total-force-system-advisory-to-identify-required-corrections-to-pay/" target="_blank" style="color: white; text-decoration: underline;">MARADMIN 052/26 - MCTFS Advisory for PEBD Corrections (19 Feb 2026)</a></p>
+                    <p class="subtitle">Last Updated: 20260302</p>
                </div>
             </div>
             
@@ -740,6 +741,9 @@
         <!-- Marine Information -->
         <div class="section">
             <h2 class="section-title">👤 MARINE INFORMATION</h2>
+            <div style="background: #e3f2fd; border: 1px solid #90caf9; border-radius: 8px; padding: 12px; margin-bottom: 20px;">
+                <p style="margin: 0; font-size: 0.9rem;"><strong>📋 MCTFS D188 Remark:</strong> Per MARADMIN 052/26, a Marine's PEBD must be supported by periods of creditable service as documented in the <strong>MCTFS D188 remark</strong>. Use the D188 remark and Official Military Personnel File (OMPF) as your source documents when entering service periods below.</p>
+            </div>
             <div class="grid grid-3">
                 <div class="form-group">
                     <label for="foundationalPEBD">Foundational PEBD:</label>
@@ -764,6 +768,21 @@
                         <option value="Officer OCC/PLC/NROTC/Academy">Officer OCC/PLC/NROTC/Academy</option>
                     </select>
                 </div>
+            </div>
+        </div>
+
+        <!-- Corrective Action Workflow (MARADMIN 052/26) -->
+        <div class="section" style="border-left: 4px solid var(--info-blue);">
+            <h2 class="section-title" style="color: var(--info-blue);">📬 PEBD CORRECTIVE ACTION WORKFLOW (MARADMIN 052/26)</h2>
+            <div style="font-size: 0.9rem; line-height: 1.7;">
+                <p style="margin-bottom: 10px;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator, follow the corrective action workflow below:</p>
+                <ol style="margin: 0; padding-left: 20px;">
+                    <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
+                    <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
+                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a> for validation and correction.</li>
+                    <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
+                </ol>
+                <p style="margin-top: 10px; color: #6b7280; font-style: italic;">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
             </div>
         </div>
 
@@ -2695,12 +2714,12 @@
                     <div class="header">
                         <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATION REPORT</h1>
                         <p class="subtitle">Semper Admin PEBD Calculator v2.1 - Enhanced Enterprise Edition with Time Loss - FIXED</p>
-                        <p class="subtitle">Reference: PAA 04-25 - Administrative Guidance on Creditable Service and PEBD</p>
+                        <p class="subtitle">References: PAA 04-25 &amp; MARADMIN 052/26 (19 Feb 2026)</p>
                         <p class="subtitle">Generated: ${data.calculationDate}</p>
                     </div>
 
                     <div class="security-notice">
-                        <strong>OFFICIAL USE NOTICE:</strong> This calculation is for reference only. Official PEBD determinations must be validated through proper Marine Corps channels per PAA 04-25.
+                        <strong>OFFICIAL USE NOTICE:</strong> This calculation is for reference only. Official PEBD determinations must be validated through proper Marine Corps channels per PAA 04-25 and MARADMIN 052/26. For PEBD corrections, forward cases to MMPB-21 at <strong>SMB_Pay_Entry_Base_Date_Correction@usmc.mil</strong>.
                     </div>
 
                     <div class="fix-notice">
@@ -2757,23 +2776,34 @@
                     ${timeLossHTML}
 
                     <div style="margin-top: 20px; font-size: 9px; color: #666; border-top: 1px solid #ccc; padding-top: 10px;">
-                        <p><strong>ALGORITHM FIXES APPLIED:</strong></p>
+                        <p><strong>GOVERNING REFERENCES:</strong></p>
                         <ul>
-                            <li>✅ Continuous period grouping: ALL periods (creditable + non-creditable) grouped by consecutive dates</li>
-                            <li>✅ Inclusive adjustments: +1 day per continuous BLOCK containing creditable service (not per period)</li>
-                            <li>✅ Proper calendar date arithmetic for PEBD calculation</li>
-                            <li>✅ Time loss periods correctly deducted from final creditable service</li>
+                            <li>REF A: 37 U.S.C. &sect; 205 - Computation of Creditable Service</li>
+                            <li>REF B: DODFMR 7000.14R, Vol 7A, Chapter 1 - Pay and Allowances</li>
+                            <li>REF C: MCRC Order 1100.1B - Marine Corps Recruiting Command Enlistment Processing Manual</li>
+                            <li>REF D: MCO 1560.33 - Marine Corps Tuition Assistance Program</li>
+                            <li>REF E: 10 U.S.C. &sect; 12103 - Reserve Component Terms</li>
+                            <li>REF F: PAA 04-25 - Administrative Guidance on Creditable Service and PEBD</li>
+                            <li>MARADMIN 052/26 - MCTFS Advisory to Identify Required Corrections to PEBD (19 Feb 2026)</li>
                         </ul>
+                        <p><strong>CORRECTIVE ACTION WORKFLOW (MARADMIN 052/26):</strong></p>
+                        <ol>
+                            <li>Marine notifies servicing PAC or reporting unit via Electronic Personnel Admin Request (EPAR)</li>
+                            <li>PAC uses OMPF and MCTFS D188 remark to validate periods of creditable service; updates D188 and uploads Key Supporting Documents as needed</li>
+                            <li>For confirmed PEBD errors, PAC follows PRIUM instructions and forwards cases to MMPB-21 at <strong>SMB_Pay_Entry_Base_Date_Correction@usmc.mil</strong></li>
+                            <li>MMPB-21 reviews and forwards adjustments to MISSO 9 for reporting</li>
+                        </ol>
                         <p><strong>VERIFICATION REQUIREMENTS:</strong></p>
                         <ul>
-                            <li>Verify all dates against source documents (DD Form 4, DD Form 214, NAVMC 763)</li>
+                            <li>Verify all dates against source documents (DD Form 4, DD Form 214, NAVMC 763) and the MCTFS D188 remark</li>
                             <li>Confirm service type classifications with official records</li>
                             <li>Validate time loss periods with disciplinary records, court records, or leave documentation</li>
                             <li>Review special circumstances and unusual service types</li>
-                            <li>Submit for official PEBD determination through proper channels</li>
+                            <li>Submit for official PEBD determination through proper channels per MARADMIN 052/26</li>
                         </ul>
                         <p style="text-align: center; margin-top: 15px;">
                             <em>Generated by Semper Admin PEBD Calculator v2.1 - Enhanced Enterprise Edition with Time Loss - FIXED</em><br>
+                            <em>Compliant with PAA 04-25 &amp; MARADMIN 052/26</em><br>
                             <em>https://linktr.ee/semperadmin</em>
                         </p>
                     </div>
