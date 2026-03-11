@@ -1233,7 +1233,7 @@
 
         <!-- Control Buttons -->
         <div class="button-container">
-            <button class="btn-primary" onclick="calculatePEBD()">
+            <button class="btn-primary" onclick="calculatePEBD(event)">
                 Calculate PEBD
             </button>
             <button class="btn-secondary" onclick="resetAll()">
@@ -1343,6 +1343,12 @@
     </div>
 
     <script>
+        // HTML escape to prevent XSS when interpolating user input into HTML strings
+        function escapeHtml(str) {
+            if (str == null) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
         // Toast notification system
         function showToast(message, type = 'info', duration = 3000) {
             const container = document.getElementById('toastContainer');
@@ -1427,7 +1433,7 @@
         let calculationResult = null;
         let currentMode = 'basic';
         let calculationHistory = [];
-        let savedCalculations = JSON.parse(localStorage.getItem('pebdCalculations') || '[]');
+        let savedCalculations = (() => { try { return JSON.parse(localStorage.getItem('pebdCalculations') || '[]'); } catch { return []; } })();
         let validationErrors = [];
         let servicePeriodCount = 0;
         let timeLossPeriodCount = 0;
@@ -1541,7 +1547,8 @@
             
             // Handle YYYY-MM-DD format
             if (dateStr.includes('-')) {
-                return new Date(dateStr);
+                const parts = dateStr.split('-');
+                return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
             }
             
             return null;
@@ -2023,7 +2030,8 @@
         // Remove service period
         function removeServicePeriod(periodIndex) {
             const row = document.getElementById(`service-period-${periodIndex}`);
-            
+            if (!row) return;
+
             if (confirm('Remove this service period?')) {
                 row.remove();
                 servicePeriodCount--;
@@ -2042,7 +2050,8 @@
         // Remove time loss period
         function removeTimeLossPeriod(periodIndex) {
             const row = document.getElementById(`timeloss-period-${periodIndex}`);
-            
+            if (!row) return;
+
             if (confirm('Remove this time loss period?')) {
                 row.remove();
                 timeLossPeriodCount--;
@@ -2182,11 +2191,11 @@
         }
 
         // FIXED: Enhanced Calculate PEBD with proper continuous block logic and correct arithmetic
-        function calculatePEBD() {
+        function calculatePEBD(event) {
             try {
                 // Show loading state
-                const button = event.target;
-                button.classList.add('loading');
+                const button = event && event.target ? event.target : null;
+                if (button) button.classList.add('loading');
                 
                 // Get and validate foundational PEBD
                 const foundationalInput = document.getElementById('foundationalPEBD').value;
@@ -2357,9 +2366,9 @@
                     days: difference.days + inclusiveAdjustments
                 };
 
-                // Subtract time loss if applicable
+                // Subtract time loss if applicable (only for Enlisted Marines per DODFMR Chapter 1)
                 let afterTimeLoss = { ...inclusiveAdjusted };
-                if (totalTimeLossDays > 0) {
+                if (totalTimeLossDays > 0 && marineStatus === 'Enlisted') {
                     afterTimeLoss.days -= totalTimeLossDays;
                 }
 
@@ -2458,11 +2467,11 @@
                 displayResults();
 
                 // Remove loading state
-                button.classList.remove('loading');
-                
+                if (button) button.classList.remove('loading');
+
             } catch (error) {
                 // Remove loading state
-                if (event.target) event.target.classList.remove('loading');
+                if (button) button.classList.remove('loading');
                 showToast('Error in calculation: ' + error.message, 'error', 5000);
             }
         }
@@ -2478,11 +2487,8 @@
             document.getElementById('resultService').textContent = 
                 `${String(data.normalized.years).padStart(2, '0')} years, ${String(data.normalized.months).padStart(2, '0')} months, ${String(data.normalized.days).padStart(2, '0')} days`;
 
-            // Subtract time loss if applicable (only for Enlisted Marines per DODFMR Chapter 1)
-            let afterTimeLoss = { ...data.inclusiveAdjusted };
-            if (data.totalTimeLossDays > 0 && data.marineStatus === 'Enlisted') {
-                afterTimeLoss.days -= data.totalTimeLossDays;
-            }
+            // Use the already-computed afterTimeLoss from calculatePEBD
+            const afterTimeLoss = data.afterTimeLoss;
 
             // Fill calculation table with proper PAA 04-25 format using stored values
             const calcTableBody = document.getElementById('calcTableBody');
@@ -2563,7 +2569,7 @@
                         ${detail.creditable ? 'Yes' : 'No'}
                     </td>
                     <td>${detail.days}</td>
-                    <td>${detail.notes}</td>
+                    <td>${escapeHtml(detail.notes)}</td>
                 </tr>
             `).join('');
 
@@ -2599,7 +2605,7 @@
                     return `
                         <tr>
                             <td>${detail.period}</td>
-                            <td>${detail.lossType}</td>
+                            <td>${escapeHtml(detail.lossType)}</td>
                             <td>${detail.startDate}</td>
                             <td>${detail.endDate}</td>
                             ${officerTimeColumn}
@@ -2607,7 +2613,7 @@
                                 ${statusText}
                             </td>
                             <td>${detail.days}</td>
-                            <td>${detail.notes}</td>
+                            <td>${escapeHtml(detail.notes)}</td>
                         </tr>
                     `;
                 }).join('');
@@ -2742,8 +2748,13 @@
             };
             
             savedCalculations.push(savedCalc);
-            localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations));
-            
+            try {
+                localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations));
+            } catch {
+                showToast('Storage full — could not save calculation', 'error');
+                return;
+            }
+
             showToast('Calculation saved successfully!', 'success');
             document.getElementById('calculationName').value = '';
         }
@@ -2798,12 +2809,7 @@
             
             // Load service periods
             data.periods.forEach((period, index) => {
-                if (index === 0 && servicePeriodCount === 0) {
-                    // Use the default period
-                    addServicePeriod();
-                } else {
-                    addServicePeriod();
-                }
+                addServicePeriod();
                 
                 const serviceSelect = document.querySelector(`select[data-period="${index}"][data-field="serviceType"]`);
                 const startInput = document.querySelector(`input[data-period="${index}"][data-field="startDate"]`);
@@ -2846,7 +2852,7 @@
         function deleteCalculation(calcId) {
             if (confirm('Delete this saved calculation?')) {
                 savedCalculations = savedCalculations.filter(c => c.id !== calcId);
-                localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations));
+                try { localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations)); } catch { /* quota exceeded */ }
                 showSavedCalculations();
             }
         }
@@ -3036,6 +3042,10 @@
         function printReport() {
             if (!calculationResult) return;
             const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                showToast('Popup blocked — please allow popups for this site to print reports', 'error');
+                return;
+            }
             printWindow.document.write(generateHTMLReport());
             printWindow.document.close();
             printWindow.focus();
@@ -3054,7 +3064,7 @@
                     <td>${detail.endDate}</td>
                     <td style="color: ${detail.creditable ? 'green' : 'red'}; font-weight: bold;">${detail.creditable ? 'Yes' : 'No'}</td>
                     <td>${detail.days}</td>
-                    <td>${detail.notes}</td>
+                    <td>${escapeHtml(detail.notes)}</td>
                 </tr>
             `).join('');
 
@@ -3078,12 +3088,12 @@
                             return `
                                 <tr>
                                     <td>${detail.period}</td>
-                                    <td>${detail.lossType}</td>
+                                    <td>${escapeHtml(detail.lossType)}</td>
                                     <td>${detail.startDate}</td>
                                     <td>${detail.endDate}</td>
                                     <td style="color: ${statusColor}; font-weight: bold;">${statusText}</td>
                                     <td>${detail.days}</td>
-                                    <td>${detail.notes}</td>
+                                    <td>${escapeHtml(detail.notes)}</td>
                                 </tr>
                             `;
                         }).join('')}
@@ -3298,14 +3308,18 @@
             // Load calculation history from localStorage
             const storedHistory = localStorage.getItem('pebdCalculationHistory');
             if (storedHistory) {
-                calculationHistory = JSON.parse(storedHistory);
-                updateCalculationHistory();
+                try {
+                    calculationHistory = JSON.parse(storedHistory);
+                    updateCalculationHistory();
+                } catch {
+                    calculationHistory = [];
+                }
             }
         });
 
         // Save calculation history to localStorage
         window.addEventListener('beforeunload', function() {
-            localStorage.setItem('pebdCalculationHistory', JSON.stringify(calculationHistory));
+            try { localStorage.setItem('pebdCalculationHistory', JSON.stringify(calculationHistory)); } catch { /* quota exceeded */ }
         });
     </script>
 
