@@ -1349,6 +1349,10 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        // Constants for stringly-typed values
+        const MARINE_STATUS = { ENLISTED: 'Enlisted', OFFICER: 'Officer' };
+        const MODE = { BASIC: 'basic', ADVANCED: 'advanced' };
+
         // Toast notification system
         function showToast(message, type = 'info', duration = 3000) {
             const container = document.getElementById('toastContainer');
@@ -1431,10 +1435,9 @@
 
         // Global variables
         let calculationResult = null;
-        let currentMode = 'basic';
+        let currentMode = MODE.BASIC;
         let calculationHistory = [];
         let savedCalculations = (() => { try { return JSON.parse(localStorage.getItem('pebdCalculations') || '[]'); } catch { return []; } })();
-        let validationErrors = [];
         let servicePeriodCount = 0;
         let timeLossPeriodCount = 0;
 
@@ -1444,7 +1447,7 @@
             
             // Special logic for Military Academy Service
             if (serviceType === "Military Academy Service") {
-                if (pathwayType && pathwayType.includes("Officer")) {
+                if (pathwayType && pathwayType.includes(MARINE_STATUS.OFFICER)) {
                     isCreditable = false;
                 } else {
                     isCreditable = true;
@@ -1469,7 +1472,7 @@
             
             // Show/hide advanced features
             const advancedFeatures = document.querySelectorAll('.advanced-features');
-            if (mode === 'advanced') {
+            if (mode === MODE.ADVANCED) {
                 advancedFeatures.forEach(el => el.classList.add('show'));
             } else {
                 advancedFeatures.forEach(el => el.classList.remove('show'));
@@ -1562,11 +1565,6 @@
             return Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
         }
 
-        // Legacy function for compatibility
-        function calculateDays(startDate, endDate) {
-            return calculateDaysInclusive(startDate, endDate);
-        }
-
         // NEW: Group all periods into continuous blocks, then extract creditable portions
         function groupAllPeriodsIntoContinuousBlocks(allPeriods) {
             if (allPeriods.length === 0) return [];
@@ -1652,54 +1650,54 @@
             return `${year}${month}${day}`;
         }
 
-        // Validate service period
-        function validateServicePeriod(periodIndex) {
-            const serviceSelect = document.querySelector(`select[data-period="${periodIndex}"][data-field="serviceType"]`);
-            const startInput = document.querySelector(`input[data-period="${periodIndex}"][data-field="startDate"]`);
-            const endInput = document.querySelector(`input[data-period="${periodIndex}"][data-field="endDate"]`);
-            
+        // Generic period validation (works for both service and time loss periods)
+        function validatePeriod(periodIndex, dataAttr, label) {
+            const typeSelect = document.querySelector(`select[data-${dataAttr}="${periodIndex}"][data-field="${dataAttr === 'period' ? 'serviceType' : 'lossType'}"]`);
+            const startInput = document.querySelector(`input[data-${dataAttr}="${periodIndex}"][data-field="startDate"]`);
+            const endInput = document.querySelector(`input[data-${dataAttr}="${periodIndex}"][data-field="endDate"]`);
+
             const errors = [];
             const warnings = [];
-            
-            if (serviceSelect?.value && startInput?.value && endInput?.value) {
+
+            if (typeSelect?.value && startInput?.value && endInput?.value) {
                 const startDate = new Date(startInput.value);
                 const endDate = new Date(endInput.value);
-                
+
                 if (endDate <= startDate) {
-                    errors.push(`Service Period ${periodIndex + 1}: End date must be after start date`);
+                    errors.push(`${label} ${periodIndex + 1}: End date must be after start date`);
                 }
-                
+
                 if (startDate > new Date()) {
-                    warnings.push(`Service Period ${periodIndex + 1}: Start date is in the future`);
+                    warnings.push(`${label} ${periodIndex + 1}: Start date is in the future`);
                 }
             }
-            
+
             return { errors, warnings };
         }
 
-        // Validate time loss period
+        function validateServicePeriod(periodIndex) {
+            return validatePeriod(periodIndex, 'period', 'Service Period');
+        }
+
         function validateTimeLossPeriod(periodIndex) {
-            const lossSelect = document.querySelector(`select[data-timeloss="${periodIndex}"][data-field="lossType"]`);
-            const startInput = document.querySelector(`input[data-timeloss="${periodIndex}"][data-field="startDate"]`);
-            const endInput = document.querySelector(`input[data-timeloss="${periodIndex}"][data-field="endDate"]`);
-            
-            const errors = [];
-            const warnings = [];
-            
-            if (lossSelect?.value && startInput?.value && endInput?.value) {
-                const startDate = new Date(startInput.value);
-                const endDate = new Date(endInput.value);
-                
-                if (endDate <= startDate) {
-                    errors.push(`Time Loss Period ${periodIndex + 1}: End date must be after start date`);
-                }
-                
-                if (startDate > new Date()) {
-                    warnings.push(`Time Loss Period ${periodIndex + 1}: Start date is in the future`);
-                }
+            return validatePeriod(periodIndex, 'timeloss', 'Time Loss Period');
+        }
+
+        // Render day count with validation icon into a cell
+        function renderDaysWithValidation(daysCell, days, validation) {
+            let dayDisplay = days > 0 ? days.toString() : 'Invalid';
+            let validationIcon = '';
+
+            if (validation.errors.length > 0) {
+                validationIcon = '<span class="validation-icon validation-invalid">&times;</span>';
+                dayDisplay = 'Error';
+            } else if (validation.warnings.length > 0) {
+                validationIcon = '<span class="validation-icon validation-warning">!</span>';
+            } else if (days > 0) {
+                validationIcon = '<span class="validation-icon validation-valid">&check;</span>';
             }
-            
-            return { errors, warnings };
+
+            daysCell.innerHTML = dayDisplay + validationIcon;
         }
 
         // Update period info when fields change
@@ -1733,21 +1731,8 @@
             // Update days and validation
             if (startDate && endDate && daysCell) {
                 const validation = validateServicePeriod(periodIndex);
-                const days = calculateDays(startDate, endDate);
-                
-                let dayDisplay = days > 0 ? days.toString() : 'Invalid';
-                let validationIcon = '';
-                
-                if (validation.errors.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-invalid">&times;</span>';
-                    dayDisplay = 'Error';
-                } else if (validation.warnings.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-warning">!</span>';
-                } else if (days > 0) {
-                    validationIcon = '<span class="validation-icon validation-valid">&check;</span>';
-                }
-
-                daysCell.innerHTML = dayDisplay + validationIcon;
+                const days = calculateDaysInclusive(startDate, endDate);
+                renderDaysWithValidation(daysCell, days, validation);
             }
         }
 
@@ -1776,23 +1761,18 @@
             // Update deductible status - considers loss type and officer time checkbox
             if (lossType && deductibleCell) {
                 const isDeductibleByType = isTimeLossDeductible(lossType);
-                let actuallyDeductible = false;
                 let statusText = '';
                 let statusClass = '';
-                
+
                 if (!isDeductibleByType) {
-                    // Loss type is not deductible (e.g., ordinary leave)
                     statusText = 'No';
                     statusClass = 'creditable-yes';
-                } else if (marineStatus === 'Officer' && isOfficerTime) {
-                    // Officer Time checkbox is checked - don't apply this period
+                } else if (marineStatus === MARINE_STATUS.OFFICER && isOfficerTime) {
                     statusText = 'No (Officer Time)';
                     statusClass = 'creditable-yes';
                 } else {
-                    // Default: Apply time loss for deductible types
                     statusText = 'Yes';
                     statusClass = 'time-loss-yes';
-                    actuallyDeductible = true;
                 }
                 
                 deductibleCell.innerHTML = `<span class="${statusClass}">${statusText}</span>`;
@@ -1801,21 +1781,8 @@
             // Update days and validation
             if (startDate && endDate && daysCell) {
                 const validation = validateTimeLossPeriod(periodIndex);
-                const days = calculateDays(startDate, endDate);
-                
-                let dayDisplay = days > 0 ? days.toString() : 'Invalid';
-                let validationIcon = '';
-                
-                if (validation.errors.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-invalid">&times;</span>';
-                    dayDisplay = 'Error';
-                } else if (validation.warnings.length > 0) {
-                    validationIcon = '<span class="validation-icon validation-warning">!</span>';
-                } else if (days > 0) {
-                    validationIcon = '<span class="validation-icon validation-valid">&check;</span>';
-                }
-
-                daysCell.innerHTML = dayDisplay + validationIcon;
+                const days = calculateDaysInclusive(startDate, endDate);
+                renderDaysWithValidation(daysCell, days, validation);
             }
         }
 
@@ -1839,7 +1806,7 @@
             const headerRow = timeLossTable.querySelector('thead tr');
             
             // Show/hide Officer Time column based on Marine Status
-            if (marineStatus === 'Officer') {
+            if (marineStatus === MARINE_STATUS.OFFICER) {
                 // Show Officer Time column
                 headerRow.innerHTML = `
                     <th role="columnheader">Period</th>
@@ -1903,7 +1870,7 @@
 
         // Helper function to create time loss row HTML
         function createTimeLossRowHTML(newIndex, marineStatus) {
-            const officerTimeColumn = marineStatus === 'Officer' ? `
+            const officerTimeColumn = marineStatus === MARINE_STATUS.OFFICER ? `
                 <td role="gridcell" style="text-align: center;">
                     <input type="checkbox" onchange="updateTimeLossPeriod(${newIndex})" data-timeloss="${newIndex}" data-field="officerTime" aria-label="Officer time for period ${newIndex + 1}" title="Check if this time loss occurred during officer service">
                 </td>
@@ -2027,49 +1994,47 @@
             timeLossPeriodCount++;
         }
 
-        // Remove service period
+        // Generic remove period function
+        function removePeriodRow(rowId, confirmMsg, tbodyId, emptyMsg, counterKey, renumberFn) {
+            const row = document.getElementById(rowId);
+            if (!row) return;
+
+            if (confirm(confirmMsg)) {
+                row.remove();
+                if (counterKey === 'service') {
+                    servicePeriodCount--;
+                    if (servicePeriodCount === 0) {
+                        document.getElementById(tbodyId).innerHTML = `<tr><td colspan="8" class="empty-state">${emptyMsg}</td></tr>`;
+                    }
+                } else {
+                    timeLossPeriodCount--;
+                    if (timeLossPeriodCount === 0) {
+                        document.getElementById(tbodyId).innerHTML = `<tr><td colspan="8" class="empty-state">${emptyMsg}</td></tr>`;
+                    }
+                }
+                renumberFn();
+            }
+        }
+
         function removeServicePeriod(periodIndex) {
-            const row = document.getElementById(`service-period-${periodIndex}`);
-            if (!row) return;
-
-            if (confirm('Remove this service period?')) {
-                row.remove();
-                servicePeriodCount--;
-                
-                // Show empty state if no periods left
-                if (servicePeriodCount === 0) {
-                    const tbody = document.getElementById('periodsBody');
-                    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No service periods added. Click "Add Service Period" to begin.</td></tr>';
-                }
-                
-                // Renumber remaining rows
-                renumberServicePeriods();
-            }
+            removePeriodRow(
+                `service-period-${periodIndex}`, 'Remove this service period?',
+                'periodsBody', 'No service periods added. Click "Add Service Period" to begin.',
+                'service', renumberServicePeriods
+            );
         }
 
-        // Remove time loss period
         function removeTimeLossPeriod(periodIndex) {
-            const row = document.getElementById(`timeloss-period-${periodIndex}`);
-            if (!row) return;
-
-            if (confirm('Remove this time loss period?')) {
-                row.remove();
-                timeLossPeriodCount--;
-                
-                // Show empty state if no periods left
-                if (timeLossPeriodCount === 0) {
-                    const tbody = document.getElementById('timeLossBody');
-                    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No time loss periods added. Click "Add Time Loss Period" to begin.</td></tr>';
-                }
-                
-                // Renumber remaining rows
-                renumberTimeLossPeriods();
-            }
+            removePeriodRow(
+                `timeloss-period-${periodIndex}`, 'Remove this time loss period?',
+                'timeLossBody', 'No time loss periods added. Click "Add Time Loss Period" to begin.',
+                'timeloss', renumberTimeLossPeriods
+            );
         }
 
-        // Renumber service periods after removal
-        function renumberServicePeriods() {
-            const tbody = document.getElementById('periodsBody');
+        // Generic renumber function for table rows
+        function renumberRows(tbodyId) {
+            const tbody = document.getElementById(tbodyId);
             Array.from(tbody.children).forEach((row, index) => {
                 if (!row.querySelector('.empty-state')) {
                     row.children[0].textContent = index + 1;
@@ -2077,19 +2042,11 @@
             });
         }
 
-        // Renumber time loss periods after removal
-        function renumberTimeLossPeriods() {
-            const tbody = document.getElementById('timeLossBody');
-            Array.from(tbody.children).forEach((row, index) => {
-                if (!row.querySelector('.empty-state')) {
-                    row.children[0].textContent = index + 1;
-                }
-            });
-        }
+        function renumberServicePeriods() { renumberRows('periodsBody'); }
+        function renumberTimeLossPeriods() { renumberRows('timeLossBody'); }
 
         // Validate all periods
         function validateAllPeriods() {
-            validationErrors = [];
             const validationSummary = document.getElementById('validationSummary');
             const validationIssues = document.getElementById('validationIssues');
             
@@ -2103,7 +2060,6 @@
                 const validation = validateServicePeriod(i);
                 
                 validation.errors.forEach(error => {
-                    validationErrors.push(error);
                     validationIssues.innerHTML += `<li style="color: #dc2626;">${error}</li>`;
                     hasErrors = true;
                 });
@@ -2119,7 +2075,6 @@
                 const validation = validateTimeLossPeriod(i);
                 
                 validation.errors.forEach(error => {
-                    validationErrors.push(error);
                     validationIssues.innerHTML += `<li style="color: #dc2626;">${error}</li>`;
                     hasErrors = true;
                 });
@@ -2368,7 +2323,7 @@
 
                 // Subtract time loss if applicable (only for Enlisted Marines per DODFMR Chapter 1)
                 let afterTimeLoss = { ...inclusiveAdjusted };
-                if (totalTimeLossDays > 0 && marineStatus === 'Enlisted') {
+                if (totalTimeLossDays > 0 && marineStatus === MARINE_STATUS.ENLISTED) {
                     afterTimeLoss.days -= totalTimeLossDays;
                 }
 
@@ -2439,10 +2394,6 @@
                     totalCreditableDays: creditableResult.totalDays,
                     inclusiveAdjustments,
                     totalTimeLossDays,
-                    // FIXED: Use normalized values for display consistency
-                    years: normalized.years,
-                    months: normalized.months,
-                    days: normalized.days,
                     continuousBlocks: continuousBlocks.length,
                     creditableBlocks: inclusiveAdjustments,
                     calculationDate: new Date().toLocaleString()
@@ -2521,7 +2472,7 @@
             // Show time loss row with appropriate messaging based on checkbox logic
             if (data.timeLossDetails.length > 0) {
                 const appliedTimeLoss = data.timeLossDetails.filter(detail => 
-                    detail.deductible && !(data.marineStatus === 'Officer' && detail.isOfficerTime)
+                    detail.deductible && !(data.marineStatus === MARINE_STATUS.OFFICER && detail.isOfficerTime)
                 ).reduce((sum, detail) => sum + detail.days, 0);
                 
                 if (appliedTimeLoss > 0) {
@@ -2532,7 +2483,7 @@
                         <td>${data.afterTimeLoss.months}</td>
                         <td>${data.afterTimeLoss.days}</td>
                     </tr>`;
-                } else if (data.marineStatus === 'Officer') {
+                } else if (data.marineStatus === MARINE_STATUS.OFFICER) {
                     const excludedTimeLoss = data.timeLossDetails.filter(detail => 
                         detail.deductible && detail.isOfficerTime
                     ).reduce((sum, detail) => sum + detail.days, 0);
@@ -2587,7 +2538,7 @@
                         // Loss type is not deductible
                         statusText = 'No';
                         statusClass = 'creditable-yes';
-                    } else if (data.marineStatus === 'Officer' && detail.isOfficerTime) {
+                    } else if (data.marineStatus === MARINE_STATUS.OFFICER && detail.isOfficerTime) {
                         // Officer Time checkbox is checked - don't apply this period
                         statusText = 'No (Officer Time)';
                         statusClass = 'creditable-yes';
@@ -2599,7 +2550,7 @@
                     }
                     
                     // Only show Officer Time column if Marine is an Officer
-                    const officerTimeColumn = data.marineStatus === 'Officer' ?
+                    const officerTimeColumn = data.marineStatus === MARINE_STATUS.OFFICER ?
                         `<td style="text-align: center;">${detail.isOfficerTime ? 'Yes' : 'No'}</td>` : '';
                     
                     return `
@@ -2619,7 +2570,7 @@
                 }).join('');
                 
                 // Add explanatory note
-                if (data.marineStatus === 'Officer') {
+                if (data.marineStatus === MARINE_STATUS.OFFICER) {
                     timeLossAnalysisBody.innerHTML += `
                         <tr style="background-color: #e8f5e9;">
                             <td colspan="8" style="text-align: center; font-weight: bold; padding: 10px;">
@@ -2879,7 +2830,7 @@
                 ['Pathway Type', calculationResult.pathwayType],
                 ['Foundational PEBD', calculationResult.foundationalPEBD],
                 ['Calculated PEBD', calculationResult.calculatedPEBD],
-                ['Total Creditable Service', `${calculationResult.years} years, ${calculationResult.months} months, ${calculationResult.days} days`],
+                ['Total Creditable Service', `${calculationResult.normalized.years} years, ${calculationResult.normalized.months} months, ${calculationResult.normalized.days} days`],
                 ['Total Time Loss Days', calculationResult.totalTimeLossDays],
                 [''],
                 ['Service Periods', '', '', '', '', '', ''],
@@ -3071,7 +3022,7 @@
             const timeLossHTML = data.timeLossDetails.length > 0 ? `
                 <div class="section">
                     <div class="section-title">TIME LOSS PERIODS ANALYSIS</div>
-                    ${data.marineStatus === 'Officer' ? `
+                    ${data.marineStatus === MARINE_STATUS.OFFICER ? `
                     <div class="time-loss-notice">
                         <strong>DODFMR Chapter 1 Rule:</strong> Time loss periods do not change an Officer's PEBD. Time loss is recorded but not applied to the calculation.
                     </div>
@@ -3079,8 +3030,8 @@
                     <table>
                                                     <tr><th>Period</th><th>Loss Type</th><th>Start Date</th><th>End Date</th><th>Officer Time</th><th>Deductible</th><th>Days</th><th>Notes</th></tr>
                         ${data.timeLossDetails.map(detail => {
-                            const affectsCalculation = detail.deductible && data.marineStatus === 'Enlisted';
-                            const statusText = data.marineStatus === 'Officer' ? 
+                            const affectsCalculation = detail.deductible && data.marineStatus === MARINE_STATUS.ENLISTED;
+                            const statusText = data.marineStatus === MARINE_STATUS.OFFICER ? 
                                 (detail.deductible ? 'Yes (Not Applied - Officer)' : 'No') : 
                                 (detail.deductible ? 'Yes' : 'No');
                             const statusColor = affectsCalculation ? 'red' : 'green';
@@ -3101,9 +3052,9 @@
                 </div>
             ` : '';
 
-            const timeLossCalcRow = data.totalTimeLossDays > 0 && data.marineStatus === 'Enlisted' ? `
+            const timeLossCalcRow = data.totalTimeLossDays > 0 && data.marineStatus === MARINE_STATUS.ENLISTED ? `
                 <tr style="background-color: #ffe8e8;"><td>Less Time Loss (${data.totalTimeLossDays} days - Enlisted)</td><td colspan="3">-${data.totalTimeLossDays} days</td></tr>
-            ` : (data.timeLossDetails.length > 0 && data.marineStatus === 'Officer' ? `
+            ` : (data.timeLossDetails.length > 0 && data.marineStatus === MARINE_STATUS.OFFICER ? `
                 <tr style="background-color: #fff3cd;"><td>Time Loss Not Applied (Officer - per DODFMR Ch1)</td><td colspan="3">Officers: Time loss does not change PEBD</td></tr>
             ` : '');
 
@@ -3167,7 +3118,7 @@
                         <div class="section-title">CALCULATION RESULTS</div>
                         <table class="calc-table">
                             <tr><th>Calculated PEBD</th><td style="font-size: 14px; font-weight: bold; color: navy;">${data.calculatedPEBD}</td></tr>
-                            <tr><th>Net Creditable Service</th><td>${String(data.years).padStart(2, '0')} years, ${String(data.months).padStart(2, '0')} months, ${String(data.days).padStart(2, '0')} days</td></tr>
+                            <tr><th>Net Creditable Service</th><td>${String(data.normalized.years).padStart(2, '0')} years, ${String(data.normalized.months).padStart(2, '0')} months, ${String(data.normalized.days).padStart(2, '0')} days</td></tr>
                             <tr><th>Total Continuous Blocks</th><td>${data.continuousBlocks}</td></tr>
                             <tr><th>Creditable Blocks</th><td>${data.creditableBlocks}</td></tr>
                             <tr><th>Total Time Loss Days</th><td style="color: ${data.totalTimeLossDays > 0 ? 'red' : 'green'}; font-weight: bold;">${data.totalTimeLossDays}</td></tr>
@@ -3182,7 +3133,7 @@
                             <tr><td>Plus Inclusive (${data.creditableBlocks} creditable continuous blocks)</td><td>+${data.inclusiveAdjustments} days</td></tr>
                             ${data.totalTimeLossDays > 0 ? `<tr style="background-color: #ffe8e8;"><td>Less Time Loss</td><td>-${data.totalTimeLossDays} days</td></tr>` : ''}
                             <tr style="background-color: #e3f2fd;"><td><strong>Net Creditable Days</strong></td><td><strong>${data.netCreditableDays} days</strong></td></tr>
-                            <tr style="background-color: #e3f2fd;"><td><strong>Converted to Y/M/D</strong></td><td><strong>${data.years}Y ${data.months}M ${data.days}D</strong></td></tr>
+                            <tr style="background-color: #e3f2fd;"><td><strong>Converted to Y/M/D</strong></td><td><strong>${data.normalized.years}Y ${data.normalized.months}M ${data.normalized.days}D</strong></td></tr>
                         </table>
                     </div>
 
@@ -3260,7 +3211,6 @@
 
                 // Clear calculation result
                 calculationResult = null;
-                validationErrors = [];
             }
         }
 
@@ -3280,7 +3230,7 @@
             initializeTimeLossPeriods();
             
             // Initialize with basic mode
-            setMode('basic');
+            setMode(MODE.BASIC);
             
             // Add keyboard navigation
             document.addEventListener('keydown', function(e) {
