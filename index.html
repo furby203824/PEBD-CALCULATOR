@@ -1115,29 +1115,120 @@
             font-weight: bold;
         }
 
+        /* Sticky toolbar */
+        .sticky-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface-elevated);
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px oklch(0 0 0 / 0.1);
+        }
+
+        .sticky-toolbar .toolbar-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sticky-toolbar input {
+            flex: 1;
+            min-width: 120px;
+            max-width: 240px;
+            padding: 8px;
+            min-height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            background: var(--surface-primary);
+            color: var(--text-primary);
+        }
+
+        .sticky-toolbar .toolbar-btn {
+            padding: 8px 16px;
+            min-height: 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .sticky-toolbar .toolbar-btn.save {
+            background: var(--info-blue);
+            color: oklch(1 0 0);
+        }
+
+        .sticky-toolbar .toolbar-btn.save:hover {
+            background: var(--info-blue-dark);
+        }
+
+        .sticky-toolbar .toolbar-btn.view {
+            background: var(--marine-gray);
+            color: oklch(1 0 0);
+        }
+
+        .sticky-toolbar .toolbar-btn.view:hover {
+            background: var(--marine-gray-dark);
+        }
+
         /* Theme toggle button */
         .theme-toggle {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: oklch(1 0 0 / 0.15);
-            border: 1px solid oklch(1 0 0 / 0.3);
+            background: oklch(0 0 0 / 0.06);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 8px;
-            min-height: 44px;
-            min-width: 44px;
+            min-height: 40px;
+            min-width: 40px;
             cursor: pointer;
-            color: oklch(1 0 0);
-            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.2s ease;
-            z-index: 10;
+            flex-shrink: 0;
         }
 
         .theme-toggle:hover {
-            background: oklch(1 0 0 / 0.25);
+            background: oklch(0 0 0 / 0.12);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: oklch(1 0 0 / 0.1);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: oklch(1 0 0 / 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .sticky-toolbar {
+                flex-wrap: wrap;
+            }
+
+            .sticky-toolbar .toolbar-save {
+                order: 2;
+                flex-basis: 100%;
+            }
+
+            .sticky-toolbar input {
+                max-width: none;
+            }
+
+            .theme-toggle {
+                margin-left: auto;
+            }
         }
 
         /* P9: Dark mode with oklch token remapping — applied via data-theme on <html> */
@@ -1226,16 +1317,7 @@
             color: var(--text-primary);
         }
 
-        /* Light mode theme toggle — needs different colors since it sits on the red header */
-        [data-theme="light"] .theme-toggle {
-            background: oklch(1 0 0 / 0.15);
-            border-color: oklch(1 0 0 / 0.3);
-            color: oklch(1 0 0);
-        }
-
-        [data-theme="light"] .theme-toggle:hover {
-            background: oklch(1 0 0 / 0.25);
-        }
+        /* (Theme toggle styling is in .sticky-toolbar section above) */
     </style>
 </head>
 <body>
@@ -1246,12 +1328,22 @@
         </div>
     </noscript>
     <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Sticky toolbar -->
+    <div class="sticky-toolbar">
+        <div class="toolbar-save">
+            <input type="text" id="calculationNameToolbar" placeholder="Marine Name or Reference" aria-label="Calculation name">
+            <button class="toolbar-btn save" onclick="saveCalculation()">Save</button>
+            <button class="toolbar-btn view" onclick="showSavedCalculations()">Saved</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+            <span id="themeIcon">&#9790;</span>
+        </button>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
-                <span id="themeIcon">&#9790;</span>
-            </button>
             <div class="header-content">
                 <!-- TODO: Restore logo
                 <div class="logo-container">
@@ -1308,27 +1400,8 @@
             </div>
         </div>
 
-        <!-- Save/Load Section -->
-        <div class="section">
-            <h2 class="section-title">Save / Load Calculations</h2>
-            <div class="grid grid-4">
-                <div class="form-group">
-                    <label for="calculationName">Calculation Name:</label>
-                    <input type="text" id="calculationName" placeholder="Marine Name or Reference">
-                </div>
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn-info" onclick="saveCalculation()">Save Current</button>
-                </div>
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn-secondary" onclick="showSavedCalculations()">View Saved</button>
-                </div>
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn-secondary" onclick="clearAllSaved()">Clear All</button>
-                </div>
-            </div>
+        <!-- Saved Calculations Display -->
+        <div class="section" id="savedSection" style="display:none;">
             <div id="savedCalculations" class="saved-calculations hidden"></div>
         </div>
 
@@ -2929,17 +3002,19 @@
 
         // Save calculation (updated for time loss)
         function saveCalculation() {
-            const name = document.getElementById('calculationName').value.trim();
+            const nameInput = document.getElementById('calculationNameToolbar');
+            const name = nameInput.value.trim();
             if (!name) {
                 showToast('Please enter a name for this calculation', 'warning');
+                nameInput.focus();
                 return;
             }
-            
+
             if (!calculationResult) {
                 showToast('Please calculate PEBD first before saving', 'warning');
                 return;
             }
-            
+
             const savedCalc = {
                 id: Date.now(),
                 name: name,
@@ -2947,7 +3022,7 @@
                 data: calculationResult,
                 inputData: collectAllInputData()
             };
-            
+
             savedCalculations.push(savedCalc);
             try {
                 localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations));
@@ -2957,26 +3032,29 @@
             }
 
             showToast('Calculation saved successfully!', 'success');
-            document.getElementById('calculationName').value = '';
+            nameInput.value = '';
         }
 
         // Show saved calculations
         function showSavedCalculations() {
+            const section = document.getElementById('savedSection');
             const container = document.getElementById('savedCalculations');
-            
+
             if (savedCalculations.length === 0) {
-                container.innerHTML = '<div class="empty-state">No saved calculations. After calculating, click <strong>Save Calculation</strong> to store results.</div>';
+                container.innerHTML = '<div class="empty-state">No saved calculations. After calculating, click <strong>Save</strong> in the toolbar to store results.</div>';
+                section.style.display = '';
                 container.classList.remove('hidden');
+                section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 return;
             }
-            
-            let html = '<h4>Saved Calculations:</h4>';
+
+            let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><h4>Saved Calculations</h4><button class="btn-small btn-danger" onclick="clearAllSaved()">Clear All</button></div>';
             savedCalculations.forEach(calc => {
                 const timeLossText = calc.data.totalTimeLossDays > 0 ? ` | ${calc.data.totalTimeLossDays} days lost` : '';
                 html += `
                     <div class="saved-item">
                         <div class="saved-item-info">
-                            <strong>${calc.name}</strong><br>
+                            <strong>${escapeHtml(calc.name)}</strong><br>
                             <small>Saved: ${calc.timestamp}</small><br>
                             <small>PEBD: ${calc.data.calculatedPEBD}${timeLossText}</small>
                         </div>
@@ -2987,9 +3065,11 @@
                     </div>
                 `;
             });
-            
+
             container.innerHTML = html;
+            section.style.display = '';
             container.classList.remove('hidden');
+            section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         // Load calculation (updated for time loss)
@@ -3064,11 +3144,12 @@
             savedCalculations = [];
             localStorage.removeItem('pebdCalculations');
             document.getElementById('savedCalculations').classList.add('hidden');
+            document.getElementById('savedSection').style.display = 'none';
 
             pushUndo('Deleted all saved calculations', () => {
                 savedCalculations = backup;
                 try { localStorage.setItem('pebdCalculations', JSON.stringify(savedCalculations)); } catch {}
-                updateSavedCalculations();
+                showSavedCalculations();
             });
         }
 
@@ -3448,7 +3529,7 @@
                 document.getElementById('foundationalPEBD').value = '';
                 document.getElementById('marineStatus').value = 'Enlisted';
                 document.getElementById('pathwayType').value = 'Enlisted DEP/Direct/Reenlisted/Prior Service';
-                document.getElementById('calculationName').value = '';
+                document.getElementById('calculationNameToolbar').value = '';
                 
                 // Clear date displays
                 document.getElementById('foundationalPEBDDisplay').style.display = 'none';
@@ -3462,6 +3543,7 @@
                 closeResultsModal();
                 document.getElementById('validationSummary').classList.add('hidden');
                 document.getElementById('savedCalculations').classList.add('hidden');
+                document.getElementById('savedSection').style.display = 'none';
                 document.getElementById('timeLossAnalysis').classList.add('hidden');
 
                 // Clear calculation result
