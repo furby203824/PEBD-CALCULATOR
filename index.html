@@ -31,6 +31,8 @@
             }
             .collapsible-content {
                 transition: none !important;
+            }
+            .collapsible-content.expanded {
                 max-height: none !important;
                 overflow: visible !important;
             }
@@ -1044,10 +1046,14 @@
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             button {
                 width: 100%;
                 max-width: 300px;
+            }
+
+            .form-group {
+                align-items: center;
             }
 
             .mode-buttons {
