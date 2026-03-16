@@ -1115,87 +1115,126 @@
             font-weight: bold;
         }
 
-        /* P9: Dark mode with oklch token remapping */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --marine-red: oklch(0.55 0.2 15);
-                --marine-red-dark: oklch(0.45 0.18 15);
-                --marine-gold: oklch(0.85 0.15 95);
-                --marine-dark: oklch(0.12 0.02 250);
-                --marine-gray: oklch(0.75 0.03 250);
-                --marine-gray-dark: oklch(0.65 0.03 250);
-                --success-green: oklch(0.65 0.16 145);
-                --success-green-dark: oklch(0.55 0.14 145);
-                --warning-orange: oklch(0.72 0.17 55);
-                --info-blue: oklch(0.65 0.1 220);
-                --info-blue-dark: oklch(0.55 0.1 220);
-                --danger-red: oklch(0.58 0.2 20);
-                --danger-red-dark: oklch(0.48 0.18 20);
+        /* Theme toggle button */
+        .theme-toggle {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: oklch(1 0 0 / 0.15);
+            border: 1px solid oklch(1 0 0 / 0.3);
+            border-radius: 8px;
+            padding: 8px;
+            min-height: 44px;
+            min-width: 44px;
+            cursor: pointer;
+            color: oklch(1 0 0);
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+            z-index: 10;
+        }
 
-                --gray-50: oklch(0.18 0 0);
-                --gray-100: oklch(0.22 0 0);
-                --gray-200: oklch(0.28 0 0);
-                --gray-300: oklch(0.35 0 0);
-                --gray-400: oklch(0.5 0 0);
-                --gray-500: oklch(0.6 0 0);
-                --gray-600: oklch(0.7 0 0);
-                --gray-700: oklch(0.8 0 0);
-                --gray-800: oklch(0.88 0 0);
-                --gray-900: oklch(0.93 0 0);
+        .theme-toggle:hover {
+            background: oklch(1 0 0 / 0.25);
+        }
 
-                --surface-primary: oklch(0.2 0.01 250);
-                --surface-secondary: oklch(0.22 0.01 250);
-                --surface-elevated: oklch(0.25 0.01 250);
-                --text-primary: oklch(0.93 0 0);
-                --text-secondary: oklch(0.7 0 0);
-                --border-color: oklch(0.32 0.01 250);
-                --border-strong: oklch(0.38 0.01 250);
+        /* P9: Dark mode with oklch token remapping — applied via data-theme on <html> */
+        [data-theme="dark"] {
+            --marine-red: oklch(0.55 0.2 15);
+            --marine-red-dark: oklch(0.45 0.18 15);
+            --marine-gold: oklch(0.85 0.15 95);
+            --marine-dark: oklch(0.12 0.02 250);
+            --marine-gray: oklch(0.75 0.03 250);
+            --marine-gray-dark: oklch(0.65 0.03 250);
+            --success-green: oklch(0.65 0.16 145);
+            --success-green-dark: oklch(0.55 0.14 145);
+            --warning-orange: oklch(0.72 0.17 55);
+            --info-blue: oklch(0.65 0.1 220);
+            --info-blue-dark: oklch(0.55 0.1 220);
+            --danger-red: oklch(0.58 0.2 20);
+            --danger-red-dark: oklch(0.48 0.18 20);
 
-                --surface-success: oklch(0.25 0.04 145);
-                --surface-warning: oklch(0.28 0.05 85);
-                --surface-danger: oklch(0.25 0.04 20);
-                --surface-info: oklch(0.25 0.03 240);
-                --surface-info-alt: oklch(0.23 0.03 240);
+            --gray-50: oklch(0.18 0 0);
+            --gray-100: oklch(0.22 0 0);
+            --gray-200: oklch(0.28 0 0);
+            --gray-300: oklch(0.35 0 0);
+            --gray-400: oklch(0.5 0 0);
+            --gray-500: oklch(0.6 0 0);
+            --gray-600: oklch(0.7 0 0);
+            --gray-700: oklch(0.8 0 0);
+            --gray-800: oklch(0.88 0 0);
+            --gray-900: oklch(0.93 0 0);
 
-                --border-success: oklch(0.4 0.06 145);
-                --border-warning: oklch(0.42 0.08 85);
-                --border-danger: oklch(0.4 0.06 20);
-            }
+            --surface-primary: oklch(0.2 0.01 250);
+            --surface-secondary: oklch(0.22 0.01 250);
+            --surface-elevated: oklch(0.25 0.01 250);
+            --text-primary: oklch(0.93 0 0);
+            --text-secondary: oklch(0.7 0 0);
+            --border-color: oklch(0.32 0.01 250);
+            --border-strong: oklch(0.38 0.01 250);
 
-            body {
-                background: linear-gradient(135deg, oklch(0.1 0.01 250) 0%, oklch(0.15 0.01 250) 100%);
-            }
+            --surface-success: oklch(0.25 0.04 145);
+            --surface-warning: oklch(0.28 0.05 85);
+            --surface-danger: oklch(0.25 0.04 20);
+            --surface-info: oklch(0.25 0.03 240);
+            --surface-info-alt: oklch(0.23 0.03 240);
 
-            /* Suppress star field in dark mode for reduced visual noise */
-            body, body::before, body::after {
-                box-shadow: none;
-            }
+            --border-success: oklch(0.4 0.06 145);
+            --border-warning: oklch(0.42 0.08 85);
+            --border-danger: oklch(0.4 0.06 20);
+        }
 
-            body::before, body::after {
-                background: none;
-            }
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, oklch(0.1 0.01 250) 0%, oklch(0.15 0.01 250) 100%);
+        }
 
-            th {
-                background: linear-gradient(135deg, oklch(0.3 0.02 250) 0%, oklch(0.25 0.02 250) 100%);
-            }
+        /* Suppress star field in dark mode */
+        [data-theme="dark"] body,
+        [data-theme="dark"] body::before,
+        [data-theme="dark"] body::after {
+            box-shadow: none;
+        }
 
-            .time-loss-table th {
-                background: linear-gradient(135deg, var(--danger-red-dark) 0%, oklch(0.35 0.15 20) 100%);
-            }
+        [data-theme="dark"] body::before,
+        [data-theme="dark"] body::after {
+            background: none;
+        }
 
-            .header {
-                background: linear-gradient(135deg, var(--marine-red-dark) 0%, oklch(0.3 0.15 15) 100%);
-            }
+        [data-theme="dark"] th {
+            background: linear-gradient(135deg, oklch(0.3 0.02 250) 0%, oklch(0.25 0.02 250) 100%);
+        }
 
-            input, select {
-                background: var(--surface-secondary);
-                color: var(--text-primary);
-            }
+        [data-theme="dark"] .time-loss-table th {
+            background: linear-gradient(135deg, var(--danger-red-dark) 0%, oklch(0.35 0.15 20) 100%);
+        }
 
-            td input, td select {
-                background: var(--surface-secondary);
-                color: var(--text-primary);
-            }
+        [data-theme="dark"] .header {
+            background: linear-gradient(135deg, var(--marine-red-dark) 0%, oklch(0.3 0.15 15) 100%);
+        }
+
+        [data-theme="dark"] input,
+        [data-theme="dark"] select {
+            background: var(--surface-secondary);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] td input,
+        [data-theme="dark"] td select {
+            background: var(--surface-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Light mode theme toggle — needs different colors since it sits on the red header */
+        [data-theme="light"] .theme-toggle {
+            background: oklch(1 0 0 / 0.15);
+            border-color: oklch(1 0 0 / 0.3);
+            color: oklch(1 0 0);
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: oklch(1 0 0 / 0.25);
         }
     </style>
 </head>
@@ -1210,6 +1249,9 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <span id="themeIcon">&#9790;</span>
+            </button>
             <div class="header-content">
                 <!-- TODO: Restore logo
                 <div class="logo-container">
@@ -3428,6 +3470,28 @@
         }
 
         // Toggle collapsible workflow section
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            document.getElementById('themeIcon').innerHTML = next === 'dark' ? '&#9728;' : '&#9790;';
+            try { localStorage.setItem('pebdTheme', next); } catch {}
+        }
+
+        function initTheme() {
+            const saved = localStorage.getItem('pebdTheme');
+            let theme;
+            if (saved === 'light' || saved === 'dark') {
+                theme = saved;
+            } else {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+            document.getElementById('themeIcon').innerHTML = theme === 'dark' ? '&#9728;' : '&#9790;';
+        }
+
         function toggleWorkflow(btn) {
             const content = document.getElementById('workflowContent');
             const isExpanded = content.classList.contains('expanded');
@@ -3438,6 +3502,9 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme
+            initTheme();
+
             // Initialize with one service period and empty time loss
             initializePeriods();
             initializeTimeLossPeriods();
