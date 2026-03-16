@@ -1126,23 +1126,130 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 2px 8px oklch(0 0 0 / 0.1);
+            box-shadow: 0 2px 8px oklch(0 0 0 / 0.12);
         }
 
-        .sticky-toolbar .toolbar-save {
+        /* Toolbar icon buttons — shared base */
+        .toolbar-icon-btn {
+            position: relative;
+            background: var(--surface-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            min-height: 44px;
+            min-width: 44px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .toolbar-icon-btn:hover {
+            background: var(--border-color);
+        }
+
+        [data-theme="dark"] .toolbar-icon-btn {
+            background: oklch(1 0 0 / 0.08);
+        }
+
+        [data-theme="dark"] .toolbar-icon-btn:hover {
+            background: oklch(1 0 0 / 0.16);
+        }
+
+        /* Mode button shows label on desktop */
+        .toolbar-mode-btn {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            white-space: nowrap;
+        }
+
+        .toolbar-mode-btn .mode-label {
+            margin-left: 4px;
+        }
+
+        /* Dropdown panel — shared */
+        .toolbar-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 220px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px oklch(0 0 0 / 0.2);
+            z-index: 200;
+            overflow: hidden;
+        }
+
+        .toolbar-dropdown.open {
+            display: block;
+        }
+
+        .toolbar-dropdown.align-right {
+            left: auto;
+            right: 0;
+        }
+
+        .dropdown-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            flex: 1;
-            min-width: 0;
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-primary);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s ease;
         }
 
-        .sticky-toolbar input {
-            flex: 1;
-            min-width: 120px;
-            max-width: 240px;
-            padding: 8px;
+        .dropdown-item:hover {
+            background: var(--surface-secondary);
+        }
+
+        .dropdown-item.active {
+            color: var(--marine-red);
+            font-weight: 700;
+        }
+
+        .dropdown-item.active::before {
+            content: '\2713';
+            font-weight: bold;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 0;
+        }
+
+        /* Save dropdown — name input area */
+        .save-dropdown-form {
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .save-dropdown-form label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        .save-dropdown-form input {
             min-height: 40px;
+            padding: 8px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 0.85rem;
@@ -1150,44 +1257,98 @@
             color: var(--text-primary);
         }
 
-        .sticky-toolbar .toolbar-btn {
-            padding: 8px 16px;
+        .save-dropdown-form button {
             min-height: 40px;
+            padding: 8px 16px;
             border: none;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-
-        .sticky-toolbar .toolbar-btn.save {
             background: var(--info-blue);
             color: oklch(1 0 0);
         }
 
-        .sticky-toolbar .toolbar-btn.save:hover {
+        .save-dropdown-form button:hover {
             background: var(--info-blue-dark);
         }
 
-        .sticky-toolbar .toolbar-btn.view {
-            background: var(--marine-gray);
-            color: oklch(1 0 0);
+        .dropdown-item.danger {
+            color: var(--danger-red);
         }
 
-        .sticky-toolbar .toolbar-btn.view:hover {
-            background: var(--marine-gray-dark);
+        /* Workflow popup */
+        .workflow-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: oklch(0 0 0 / 0.5);
+            z-index: 300;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 64px 16px 16px;
+            overflow-y: auto;
+        }
+
+        .workflow-popup-overlay.open {
+            display: flex;
+        }
+
+        .workflow-popup {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 16px 48px oklch(0 0 0 / 0.3);
+            width: 100%;
+            max-width: 640px;
+            padding: 24px;
+            position: relative;
+        }
+
+        .workflow-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .workflow-popup-header h3 {
+            color: var(--info-blue);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .workflow-popup-close {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            min-height: 36px;
+            min-width: 36px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .workflow-popup-close:hover {
+            background: var(--surface-secondary);
         }
 
         /* Theme toggle button */
         .theme-toggle {
-            background: oklch(0 0 0 / 0.06);
+            background: var(--surface-secondary);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 8px;
-            min-height: 40px;
-            min-width: 40px;
+            min-height: 44px;
+            min-width: 44px;
             cursor: pointer;
             color: var(--text-primary);
             font-size: 1.1rem;
@@ -1196,38 +1357,24 @@
             justify-content: center;
             transition: background 0.2s ease;
             flex-shrink: 0;
+            margin-left: auto;
         }
 
         .theme-toggle:hover {
-            background: oklch(0 0 0 / 0.12);
+            background: var(--border-color);
         }
 
         [data-theme="dark"] .theme-toggle {
-            background: oklch(1 0 0 / 0.1);
-            border-color: var(--border-color);
-            color: var(--text-primary);
+            background: oklch(1 0 0 / 0.08);
         }
 
         [data-theme="dark"] .theme-toggle:hover {
-            background: oklch(1 0 0 / 0.2);
+            background: oklch(1 0 0 / 0.16);
         }
 
-        @media (max-width: 768px) {
-            .sticky-toolbar {
-                flex-wrap: wrap;
-            }
-
-            .sticky-toolbar .toolbar-save {
-                order: 2;
-                flex-basis: 100%;
-            }
-
-            .sticky-toolbar input {
-                max-width: none;
-            }
-
-            .theme-toggle {
-                margin-left: auto;
+        @media (max-width: 480px) {
+            .toolbar-mode-btn .mode-label {
+                display: none;
             }
         }
 
@@ -1331,14 +1478,56 @@
 
     <!-- Sticky toolbar -->
     <div class="sticky-toolbar">
-        <div class="toolbar-save">
-            <input type="text" id="calculationNameToolbar" placeholder="Marine Name or Reference" aria-label="Calculation name">
-            <button class="toolbar-btn save" onclick="saveCalculation()">Save</button>
-            <button class="toolbar-btn view" onclick="showSavedCalculations()">Saved</button>
+        <!-- Mode selector dropdown -->
+        <div class="toolbar-icon-btn" id="modeDropdownBtn" onclick="toggleToolbarDropdown('modeDropdown')" aria-label="Select calculation mode" title="Calculation Mode">
+            <button class="toolbar-mode-btn"><span class="mode-label" id="modeLabel">Basic</span> &#9660;</button>
+            <div class="toolbar-dropdown" id="modeDropdown">
+                <div class="dropdown-item active" data-mode="basic" onclick="selectToolbarMode('basic', event)">&#10003; Basic Mode</div>
+                <div class="dropdown-item" data-mode="advanced" onclick="selectToolbarMode('advanced', event)">Advanced Mode</div>
+            </div>
         </div>
+
+        <!-- Save/Load dropdown -->
+        <div class="toolbar-icon-btn" id="saveDropdownBtn" onclick="toggleToolbarDropdown('saveDropdown')" aria-label="Save and load calculations" title="Save / Load">
+            <button class="toolbar-mode-btn">&#128190;</button>
+            <div class="toolbar-dropdown" id="saveDropdown" style="min-width: 260px;">
+                <div class="save-dropdown-form" onclick="event.stopPropagation()">
+                    <label style="font-size:0.8rem;font-weight:600;margin-bottom:4px;display:block;">Save Current Calculation</label>
+                    <input type="text" id="calculationNameToolbar" placeholder="Marine Name or Reference" aria-label="Calculation name" style="width:100%;padding:8px;border:1px solid var(--border-color);border-radius:6px;margin-bottom:8px;font-size:0.85rem;">
+                    <button class="btn-success" onclick="saveCalculation()" style="width:100%;padding:8px;font-size:0.85rem;">Save</button>
+                </div>
+                <div class="dropdown-item" onclick="toolbarShowSaved(event)">&#128196; View Saved</div>
+                <div class="dropdown-item" onclick="toolbarClearAll(event)" style="color:var(--danger-red);">&#128465; Clear All Saved</div>
+            </div>
+        </div>
+
+        <!-- Workflow popup trigger -->
+        <div class="toolbar-icon-btn" onclick="openWorkflowPopup()" aria-label="PEBD Workflow" title="PEBD Corrective Action Workflow">
+            <button class="toolbar-mode-btn">&#128203;</button>
+        </div>
+
+        <!-- Theme toggle -->
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
             <span id="themeIcon">&#9790;</span>
         </button>
+    </div>
+
+    <!-- Workflow popup overlay -->
+    <div class="workflow-popup-overlay" id="workflowPopupOverlay" onclick="closeWorkflowPopup(event)">
+        <div class="workflow-popup" onclick="event.stopPropagation()">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="margin:0;font-size:1.1rem;">PEBD Corrective Action Workflow</h3>
+                <button class="workflow-popup-close" onclick="closeWorkflowPopup()" aria-label="Close workflow">&times;</button>
+            </div>
+            <p style="margin:0 0 8px;font-size:0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
+            <ol class="workflow-steps">
+                <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
+                <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
+                <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
+                <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
+            </ol>
+            <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
+        </div>
     </div>
 
     <div class="container">
@@ -1369,36 +1558,7 @@
             </div>
         </div>
 
-        <!-- Mode Selector -->
-        <div class="mode-selector">
-            <h3 style="margin-bottom: 16px;">Select Calculation Mode</h3>
-            <div class="mode-buttons">
-                <button class="mode-btn active" onclick="setMode('basic')" id="basicModeBtn">
-                    Basic Mode
-                </button>
-                <button class="mode-btn" onclick="setMode('advanced')" id="advancedModeBtn">
-                    Advanced Mode
-                </button>
-            </div>
-        </div>
-
-        <!-- Corrective Action Workflow (MARADMIN 052/26) -->
-        <div class="reference-section">
-            <button class="collapsible-toggle" onclick="toggleWorkflow(this)" aria-expanded="false" aria-controls="workflowContent">
-                <span class="toggle-icon">&#9654;</span>
-                PEBD Corrective Action Workflow (MARADMIN 052/26)
-            </button>
-            <div id="workflowContent" class="collapsible-content">
-                <p style="margin: 16px 0 8px; font-size: 0.88rem;">If a PEBD discrepancy is identified by a MCTFS "PEBD Risk" advisory or through this calculator:</p>
-                <ol class="workflow-steps">
-                    <li><strong>Marine:</strong> Notify your servicing PAC or reporting unit via <strong>Electronic Personnel Admin Request (EPAR)</strong> to verify and address the PEBD discrepancy.</li>
-                    <li><strong>PAC / Reporting Unit:</strong> Use the <strong>OMPF</strong> and the <strong>MCTFS D188 remark</strong> to analyze and validate periods of creditable service. If periods are missing, update the D188 remark and upload Key Supporting Documents to the OMPF.</li>
-                    <li><strong>Escalation:</strong> Where instances of incorrect PEBD are confirmed, follow PRIUM instructions and forward cases to <strong>MMPB-21</strong> at <a href="mailto:SMB_Pay_Entry_Base_Date_Correction@usmc.mil" style="color: var(--info-blue); font-weight: 600;">SMB_Pay_Entry_Base_Date_Correction@usmc.mil</a></li>
-                    <li><strong>MMPB-21:</strong> Reviews case material and forwards PEBDs requiring adjustment to <strong>MISSO 9</strong> for reporting.</li>
-                </ol>
-                <p class="workflow-note">It is the Marine's responsibility to ensure all service data is annotated in their records. Missing data, particularly regarding prior service, can cause calculation errors even when no PEBD advisory is issued.</p>
-            </div>
-        </div>
+        <!-- Mode selector and workflow moved to sticky toolbar -->
 
         <!-- Saved Calculations Display -->
         <div class="section" id="savedSection" style="display:none;">
@@ -1761,11 +1921,18 @@
         // Mode management
         function setMode(mode) {
             currentMode = mode;
-            
-            // Update button states
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(mode + 'ModeBtn').classList.add('active');
-            
+
+            // Update toolbar dropdown items
+            document.querySelectorAll('#modeDropdown .dropdown-item').forEach(item => {
+                const isActive = item.getAttribute('data-mode') === mode;
+                item.classList.toggle('active', isActive);
+                item.textContent = (isActive ? '\u2713 ' : '') + (mode === item.getAttribute('data-mode') ? (item.getAttribute('data-mode') === 'basic' ? 'Basic Mode' : 'Advanced Mode') : (item.getAttribute('data-mode') === 'basic' ? 'Basic Mode' : 'Advanced Mode'));
+            });
+
+            // Update toolbar label
+            const label = document.getElementById('modeLabel');
+            if (label) label.textContent = mode === MODE.BASIC ? 'Basic' : 'Advanced';
+
             // Show/hide advanced features
             const advancedFeatures = document.querySelectorAll('.advanced-features');
             if (mode === MODE.ADVANCED) {
@@ -3551,7 +3718,60 @@
             }
         }
 
-        // Toggle collapsible workflow section
+        // Toolbar dropdown handlers
+        function toggleToolbarDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const wasOpen = dropdown.classList.contains('open');
+            // Close all dropdowns first
+            document.querySelectorAll('.toolbar-dropdown').forEach(d => d.classList.remove('open'));
+            if (!wasOpen) {
+                dropdown.classList.add('open');
+            }
+        }
+
+        function selectToolbarMode(mode, event) {
+            event.stopPropagation();
+            setMode(mode);
+            document.querySelectorAll('.toolbar-dropdown').forEach(d => d.classList.remove('open'));
+        }
+
+        function toolbarShowSaved(event) {
+            event.stopPropagation();
+            document.querySelectorAll('.toolbar-dropdown').forEach(d => d.classList.remove('open'));
+            showSavedCalculations();
+        }
+
+        function toolbarClearAll(event) {
+            event.stopPropagation();
+            document.querySelectorAll('.toolbar-dropdown').forEach(d => d.classList.remove('open'));
+            clearAllSaved();
+        }
+
+        function openWorkflowPopup() {
+            document.getElementById('workflowPopupOverlay').classList.add('open');
+        }
+
+        function closeWorkflowPopup(event) {
+            // If called from overlay click, only close if clicking overlay itself
+            if (event && event.target !== document.getElementById('workflowPopupOverlay')) return;
+            document.getElementById('workflowPopupOverlay').classList.remove('open');
+        }
+
+        // Close dropdowns on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.toolbar-icon-btn')) {
+                document.querySelectorAll('.toolbar-dropdown').forEach(d => d.classList.remove('open'));
+            }
+        });
+
+        // Close workflow popup on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.toolbar-dropdown').forEach(d => d.classList.remove('open'));
+                document.getElementById('workflowPopupOverlay')?.classList.remove('open');
+            }
+        });
+
         // Theme toggle
         function toggleTheme() {
             const html = document.documentElement;
@@ -3574,13 +3794,7 @@
             document.getElementById('themeIcon').innerHTML = theme === 'dark' ? '&#9728;' : '&#9790;';
         }
 
-        function toggleWorkflow(btn) {
-            const content = document.getElementById('workflowContent');
-            const isExpanded = content.classList.contains('expanded');
-            content.classList.toggle('expanded');
-            btn.classList.toggle('expanded');
-            btn.setAttribute('aria-expanded', !isExpanded);
-        }
+        // toggleWorkflow is now handled by openWorkflowPopup/closeWorkflowPopup
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
