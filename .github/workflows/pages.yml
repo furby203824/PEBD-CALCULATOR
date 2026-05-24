@@ -1,0 +1,57 @@
+# GitHub Pages deployment workflow for the PEBD Calculator.
+# Replaces the legacy pages-build-deployment with an explicit Actions workflow
+# that is visible in the Actions tab and can be extended with build / validate steps.
+#
+# After merging this file, switch the Pages source in repo Settings:
+#   Settings > Pages > Build and deployment > Source: GitHub Actions
+#
+# This is a static-site deployment. No build step is required; the repo root
+# is uploaded as-is.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Cancel any in-progress run when a new commit lands on main.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+# Grant the workflow the minimum permissions needed to publish Pages
+# and write the deployment status back to the commit.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload repository as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Publish the repo root. No build directory.
+          path: .
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
