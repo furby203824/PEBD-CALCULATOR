@@ -1,0 +1,17 @@
+# Local backup files
+*.bak
+
+# Editor / OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (for the optional fonts npm install workflow)
+node_modules/
+package-lock.json
+
+# Sandbox / IDE artifacts that should not ship
+.idea/
+.vscode/
+*.swp
+*.swo

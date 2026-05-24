@@ -1,0 +1,177 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Semper Admin Portal Tokens",
+    "version": "1.2",
+    "shipped": "2026-05-04",
+    "source": "SEMPER-STYLE-GUIDE.md"
+  },
+  "color": {
+    "brand": {
+      "usmc-scarlet":     { "value": "#B82230" },
+      "usmc-scarlet-700": { "value": "#971826" },
+      "usmc-scarlet-300": { "value": "#D14150" },
+      "marine-blue":      { "value": "#0F1F3D" },
+      "marine-blue-700":  { "value": "#0A1424" },
+      "marine-blue-300":  { "value": "#2A3D60" },
+      "marine-blue-100":  { "value": "#6B9BD2" },
+      "parchment":        { "value": "#F2E5BE" },
+      "parchment-700":    { "value": "#D9C994" },
+      "parchment-300":    { "value": "#FAF1D8" },
+      "brass":            { "value": "#B89042" },
+      "brass-700":        { "value": "#8E6E2E" },
+      "brass-300":        { "value": "#D4AF67" }
+    },
+    "neutral": {
+      "50":  { "value": "#F8F4E8" },
+      "100": { "value": "#F2EBD4" },
+      "200": { "value": "#E7DFC2" },
+      "300": { "value": "#C9BD96" },
+      "400": { "value": "#A89A72" },
+      "500": { "value": "#8A7E63" },
+      "600": { "value": "#5C5340" },
+      "700": { "value": "#3A3328" },
+      "800": { "value": "#26221A" },
+      "900": { "value": "#181410" },
+      "950": { "value": "#0F0C09" }
+    },
+    "ink": {
+      "50":  { "value": "#F2E5BE" },
+      "100": { "value": "#B5A988" },
+      "200": { "value": "#8A7F66" },
+      "300": { "value": "#34507A" },
+      "400": { "value": "#233A5C" },
+      "500": { "value": "#1F345C" },
+      "600": { "value": "#182A4D" },
+      "700": { "value": "#11203F" },
+      "800": { "value": "#0A1424" },
+      "900": { "value": "#060E1A" }
+    },
+    "role": {
+      "marine":         { "value": "#B82230" },
+      "leader":         { "value": "#B89042" },
+      "commander-light":{ "value": "#0F1F3D" },
+      "commander-dark": { "value": "#6B9BD2" },
+      "admin":          { "value": "#2F8F5C" }
+    },
+    "status": {
+      "fresh": { "value": "#2F8F5C" },
+      "aging": { "value": "#C97D1F" },
+      "stale": { "value": "#B83232" },
+      "info":  { "value": "#2F5FA8" }
+    },
+    "semantic": {
+      "light": {
+        "background":          { "value": "#F8F4E8" },
+        "bg-elev":             { "value": "#FFFCF4" },
+        "bg-sunken":           { "value": "#EFE9D6" },
+        "foreground":          { "value": "#1A1610" },
+        "card":                { "value": "#FFFCF4" },
+        "popover":             { "value": "#FFFCF4" },
+        "primary":             { "value": "#B82230" },
+        "primary-foreground":  { "value": "#FFFCF4" },
+        "secondary":           { "value": "#0F1F3D" },
+        "secondary-foreground":{ "value": "#F2E5BE" },
+        "muted":               { "value": "#F2EBD4" },
+        "muted-foreground":    { "value": "#5C5340" },
+        "subtle-foreground":   { "value": "#8A7E63" },
+        "accent":              { "value": "#B89042" },
+        "accent-foreground":   { "value": "#1A1610" },
+        "destructive":         { "value": "#B83232" },
+        "border":              { "value": "#DDD3B5" },
+        "border-strong":       { "value": "#C9BD96" },
+        "ring":                { "value": "#B82230" },
+        "surface":             { "value": "#FFFCF4" },
+        "surface-2":           { "value": "#F2EBD4" },
+        "surface-3":           { "value": "#E7DFC2" }
+      },
+      "dark": {
+        "background":          { "value": "#0A1424" },
+        "bg-elev":             { "value": "#11203F" },
+        "bg-sunken":           { "value": "#060E1A" },
+        "foreground":          { "value": "#F2E5BE" },
+        "card":                { "value": "#11203F" },
+        "popover":             { "value": "#11203F" },
+        "primary":             { "value": "#D14150" },
+        "primary-foreground":  { "value": "#060E1A" },
+        "secondary":           { "value": "#2A3D60" },
+        "secondary-foreground":{ "value": "#F2E5BE" },
+        "muted":               { "value": "#182A4D" },
+        "muted-foreground":    { "value": "#B5A988" },
+        "subtle-foreground":   { "value": "#8A7F66" },
+        "accent":              { "value": "#D4AF67" },
+        "accent-foreground":   { "value": "#060E1A" },
+        "destructive":         { "value": "#B83232" },
+        "border":              { "value": "#233A5C" },
+        "border-strong":       { "value": "#34507A" },
+        "ring":                { "value": "#B82230" },
+        "surface":             { "value": "#11203F" },
+        "surface-2":           { "value": "#182A4D" },
+        "surface-3":           { "value": "#1F345C" }
+      }
+    }
+  },
+  "font": {
+    "display": { "value": "Bebas Neue, Oswald, system-ui, sans-serif" },
+    "body":    { "value": "Inter Variable, Inter, system-ui, sans-serif" },
+    "mono":    { "value": "JetBrains Mono Variable, JetBrains Mono, Cascadia Code, Menlo, monospace" }
+  },
+  "text": {
+    "xs":  { "value": "0.75rem" },
+    "sm":  { "value": "0.8125rem" },
+    "base":{ "value": "0.9375rem" },
+    "md":  { "value": "1rem" },
+    "lg":  { "value": "1.0625rem" },
+    "xl":  { "value": "1.25rem" },
+    "2xl": { "value": "1.375rem" },
+    "3xl": { "value": "1.75rem" },
+    "4xl": { "value": "2.25rem" },
+    "5xl": { "value": "3rem" },
+    "6xl": { "value": "3.5rem" }
+  },
+  "space": {
+    "1": { "value": "4px" },
+    "2": { "value": "8px" },
+    "3": { "value": "12px" },
+    "4": { "value": "16px" },
+    "5": { "value": "24px" },
+    "6": { "value": "32px" },
+    "7": { "value": "48px" },
+    "8": { "value": "64px" }
+  },
+  "radius": {
+    "xs":     { "value": "3px" },
+    "sm":     { "value": "6px" },
+    "md":     { "value": "8px" },
+    "lg":     { "value": "12px" },
+    "card":   { "value": "8px" },
+    "button": { "value": "6px" },
+    "banner": { "value": "0px" },
+    "chip":   { "value": "9999px" },
+    "base":   { "value": "0.5rem" }
+  },
+  "shadow": {
+    "light": {
+      "sm":          { "value": "0 1px 2px rgba(26,22,16,.05), 0 0 0 1px rgba(26,22,16,.04)" },
+      "card":        { "value": "0 1px 2px rgba(26,22,16,.05), 0 0 0 1px rgba(26,22,16,.04)" },
+      "md":          { "value": "0 2px 4px rgba(26,22,16,.06), 0 10px 28px rgba(26,22,16,.08)" },
+      "card-strong": { "value": "0 2px 4px rgba(26,22,16,.06), 0 10px 28px rgba(26,22,16,.08)" },
+      "lg":          { "value": "0 18px 52px rgba(26,22,16,.20)" }
+    },
+    "dark": {
+      "sm": { "value": "0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(242,229,190,.04)" },
+      "md": { "value": "0 2px 4px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.45)" },
+      "lg": { "value": "0 18px 52px rgba(0,0,0,.55)" }
+    }
+  },
+  "layout": {
+    "topbar-h": { "value": "56px" },
+    "tree-w":   { "value": "272px" },
+    "toc-w":    { "value": "232px" }
+  },
+  "motion": {
+    "fast":    { "value": "120ms" },
+    "default": { "value": "180ms" },
+    "slow":    { "value": "240ms" }
+  }
+}
