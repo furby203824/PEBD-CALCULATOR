@@ -363,8 +363,99 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
         }
 
+        .header-nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 8px 18px;
+            background-color: white;
+            color: #1e40af;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .header-nav-link:hover {
+            background-color: #1e40af;
+            color: white;
+            border-color: #1e40af;
+        }
+
+        .header-nav-link:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+
+        .companion-prompt {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-top: 3px solid #059669;
+            border-radius: 8px;
+            padding: 24px 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .companion-prompt-title {
+            margin: 0 0 4px 0;
+            color: #1e3a8a;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .companion-prompt-text {
+            margin: 0 0 16px 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .companion-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .companion-open-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #1e40af;
+            color: white;
+            padding: 11px 28px;
+            border: 1px solid #1e40af;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .companion-open-btn:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.25);
+        }
+
+        .companion-open-btn:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+
+        .companion-note {
+            margin: 14px 0 0 0;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
         @media print {
-            .feedback-fab, .feedback-prompt {
+            .feedback-fab, .feedback-prompt, .companion-prompt {
                 display: none;
             }
         }
@@ -632,6 +723,10 @@
             <p Reference:><a href="https://usmc.sharepoint-mil.us/sites/dcmra_mra_mi_missa/Lists/PAA/DispForm.aspx?ID=127&e=qD8Oj2" target="_blank" style="font-size: 0.9rem; color: #64748b; text-decoration: underline;">PAA 04-25 - Administrative Guidance on Creditable Service and PEBD</a>
 
             </p>
+            <a class="header-nav-link" href="pay-comparison.html">
+                <svg class="feedback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                Companion Tool: Basic Pay Comparison →
+            </a>
         </div>
 
         <!-- Marine Information -->
@@ -761,6 +856,19 @@
                             <!-- Analysis will be filled by JavaScript -->
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pay Comparison Handoff -->
+                <div class="companion-prompt">
+                    <p class="companion-prompt-title">Next Step: Compare Pay Impact</p>
+                    <p class="companion-prompt-text">See the month-by-month basic pay difference between the foundational and calculated PEBD in the companion Basic Pay Comparison tool.</p>
+                    <div class="companion-actions">
+                        <a class="companion-open-btn" id="openPayComparison" href="pay-comparison.html">
+                            <svg class="feedback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                            Open in Pay Comparison →
+                        </a>
+                    </div>
+                    <p class="companion-note">The link carries only the two PEBD dates — no names or personal data leave your browser.</p>
                 </div>
 
                 <!-- Feedback Prompt -->
@@ -1189,6 +1297,10 @@
                     <td>${detail.notes}</td>
                 </tr>
             `).join('');
+
+            // Wire the Pay Comparison handoff link (dates only, no personal data in the URL)
+            document.getElementById('openPayComparison').href =
+                'pay-comparison.html?pebdA=' + data.foundationalPEBD + '&pebdB=' + data.calculatedPEBD;
 
             document.getElementById('results').classList.remove('hidden');
         }
