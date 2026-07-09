@@ -1,14 +1,14 @@
 # Privacy Policy
-Marine Corps PEBD Calculator by Semper Admin
+Marine Corps PEBD Calculator & Basic Pay Comparison by Semper Admin
 
 **Effective Date:** June 2, 2026
-**Last Updated:** June 2, 2026
+**Last Updated:** July 9, 2026
 
 ---
 
 ## 1. Introduction
 
-The Marine Corps PEBD Calculator ("Tool") is a client-side, browser-based calculation utility designed to assist with understanding creditable service calculations under PAA 04-25. This Privacy Policy explains our data practices.
+The Marine Corps PEBD Calculator and its companion Basic Pay Comparison page (together, the "Tool") are client-side, browser-based calculation utilities designed to assist with understanding creditable service calculations under PAA 04-25 and the estimated basic pay impact of a PEBD correction. This Privacy Policy explains our data practices and applies equally to both pages.
 
 ---
 
@@ -16,8 +16,8 @@ The Marine Corps PEBD Calculator ("Tool") is a client-side, browser-based calcul
 
 **Zero Data Collection.**
 
-The PEBD Calculator:
-- Does NOT transmit any user input to external servers
+The PEBD Calculator and the Basic Pay Comparison page:
+- Do NOT transmit any user input to external servers
 - Does NOT use cookies to track you
 - Does NOT use analytics or telemetry (Google Analytics, Segment, etc.)
 - Does NOT store your calculations in a database
@@ -42,11 +42,18 @@ When you enter service period information and click "Calculate PEBD," the follow
    - Clear browser cache
    - Click the "Reset All" button
 
+### Pay Comparison Data
+The Basic Pay Comparison page works the same way: PEBD dates, career timeline entries, and the optional member last name are processed entirely in your browser's memory against a pay table embedded in the page itself. Nothing is looked up remotely and nothing is transmitted.
+
+### Page-to-Page Handoff
+The "Open in Pay Comparison" link on the calculator's results passes only the two PEBD dates to the comparison page as URL parameters (for example, `pay-comparison.html?pebdA=20180406&pebdB=20170603`). No names or other personal data are ever placed in a URL. The parameters are read locally by your browser and are not sent to any server.
+
 ### Print/Export
-If you print or export your calculation report:
-- PDF/print files are created locally on your device
+If you print or export your calculation report, or export a CSV from the Basic Pay Comparison page:
+- PDF/print/CSV files are created locally on your device
 - No data is transmitted to cloud services
-- Your browser's print dialog handles the output
+- Your browser's print dialog or download manager handles the output
+- You are responsible for securing exported files that contain service information
 
 ---
 
@@ -62,8 +69,8 @@ Accessing these links directs you away from this Tool. Their privacy policies go
 
 ## 5. Browser Functionality
 
-The PEBD Calculator uses standard browser features:
-- **Local Storage:** NOT used
+The Tool uses standard browser features:
+- **Local Storage:** Used ONLY to remember that you accepted the Terms of Service (a true/false flag and the acceptance timestamp). No calculation data, service dates, or personal information is ever stored. Clearing your browser data removes the flag; you will simply be asked to accept the terms again.
 - **Session Storage:** NOT used
 - **IndexedDB:** NOT used
 - **Cookies:** NOT used

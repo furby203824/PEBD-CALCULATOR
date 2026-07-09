@@ -1,20 +1,22 @@
 # Terms of Service
-Marine Corps PEBD Calculator by Semper Admin
+Marine Corps PEBD Calculator & Basic Pay Comparison by Semper Admin
 
 **Effective Date:** June 2, 2026
-**Last Updated:** June 2, 2026
+**Last Updated:** July 9, 2026
 
 ---
 
 ## 1. Acceptance of Terms
 
-By accessing and using the Marine Corps PEBD Calculator ("Tool"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use this Tool.
+By accessing and using the Marine Corps PEBD Calculator or its companion Basic Pay Comparison page (together, the "Tool"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use this Tool. One acceptance covers both pages.
 
 ---
 
 ## 2. Service Description
 
-The PEBD Calculator is a reference tool designed to assist users in understanding creditable service calculations under Marine Corps PAA 04-25. The Tool performs date arithmetic and service period analysis to estimate Pay Entry Base Dates (PEBDs).
+The PEBD Calculator is a reference tool designed to assist users in understanding creditable service calculations under Marine Corps PAA 04-25. It performs date arithmetic and service period analysis to estimate Pay Entry Base Dates (PEBDs).
+
+The Basic Pay Comparison page is a companion reference tool that estimates the month-by-month basic pay difference between two PEBD scenarios (the PEBD of record and a recalculated PEBD) using a basic pay table embedded in the page. Pay figures are estimates produced with a synthetic 30-day-month proration method and rates effective only through the date shown on the page; they are not a pay record and are not a Defense Finance and Accounting Service (DFAS) computation.
 
 ---
 
@@ -47,6 +49,12 @@ Semper Admin does not warrant that:
 - Cross-check results with your Command's Personnel & Administration Center (PAC)
 - Consult official USMC resources or a military legal advisor for official matters
 - Assume this calculation contains errors or omissions
+
+### Pay Estimates
+For the Basic Pay Comparison page specifically:
+- **DFAS is the sole authority for military pay.** Comparison output is an estimate for administrative review only and must never be presented as an amount owed or a pay determination.
+- The embedded pay table covers historical rates through the effective date displayed on the page and is updated manually; newer rates may not be reflected.
+- Results depend entirely on the career timeline you enter. An incomplete or incorrect timeline produces incorrect estimates.
 
 ### Discrepancies
 If this Tool's results differ from official military records, **the official military record is authoritative.** Report discrepancies to your PAC or command immediately.
@@ -97,7 +105,7 @@ This Tool does not constitute legal, financial, or military personnel advice. Fo
 
 ## 8. Intellectual Property
 
-The PEBD Calculator, its design, and underlying code are intellectual property of Semper Admin. You may use the Tool personally but may not:
+The PEBD Calculator, the Basic Pay Comparison page, their design, and underlying code are intellectual property of Semper Admin. You may use the Tool personally but may not:
 - Redistribute, republish, or resell the Tool
 - Claim ownership or authorship
 - Create derivative works without permission
