@@ -61,7 +61,7 @@ If you print or export your calculation report, or export a CSV from the Basic P
 
 This Tool contains links to external resources:
 - **USMC SharePoint:** PAA 04-25 guidance document (military.mil domain)
-- **Linktree:** Semper Admin social media directory (linktr.ee)
+- **Feedback form:** an external form linked from the feedback buttons
 
 Accessing these links directs you away from this Tool. Their privacy policies govern their data practices. We do not control or endorse their data collection practices.
 
