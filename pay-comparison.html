@@ -1477,7 +1477,28 @@ document.addEventListener('DOMContentLoaded', function () {
   ['pebdA', 'pebdB', 'periodStart', 'periodEnd'].forEach(function (id) {
     document.getElementById(id).addEventListener('change', function () { updateBadge(id); });
   });
+  readHandoffParams();
 });
+
+/* Reads ?pebdA=YYYYMMDD&pebdB=YYYYMMDD from a PEBD Calculator handoff link. Dates only. */
+function readHandoffParams() {
+  var params = new URLSearchParams(window.location.search);
+  var loaded = false;
+  [['pebdA', params.get('pebdA')], ['pebdB', params.get('pebdB')]].forEach(function (pair) {
+    var id = pair[0], val = pair[1];
+    if (val && /^\d{8}$/.test(val)) {
+      var iso = intToDateInput(parseInt(val, 10));
+      if (iso) {
+        document.getElementById(id).value = iso;
+        updateBadge(id);
+        loaded = true;
+      }
+    }
+  });
+  if (loaded) {
+    showError('PEBD values loaded from the PEBD Calculator link. Verify Scenario A holds the PEBD of record pay was computed under, and Scenario B holds the corrected PEBD. Both fields stay editable.');
+  }
+}
 
     </script>
 
