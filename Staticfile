@@ -1,1 +1,3 @@
 # Staticfile for staticfile buildpack
+# Redirect all HTTP requests to HTTPS at the router
+force_https: true
