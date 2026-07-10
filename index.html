@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marine Corps PEBD Calculator by Semper Admin</title>
+    <script>
+        // Theme bootstrap: dark is the default; a stored preference wins.
+        // Runs before first paint to avoid a flash of the wrong theme.
+        (function () {
+            var theme = null;
+            try { theme = localStorage.getItem('semper_theme'); } catch (e) {}
+            if (theme !== 'light') document.documentElement.classList.add('dark');
+        })();
+    </script>
     <style>
         /*
          * Semper Admin token layer - Phase B (Semper light palette).
@@ -83,6 +92,187 @@
             background: var(--color-accent);
             color: var(--color-accent-foreground);
         }
+
+        html { color-scheme: light; }
+        html.dark { color-scheme: dark; }
+
+        /* Dark theme (Semper guide dark set; primary lightened from the
+           guide's #D14150 to #E17983 to hold WCAG AA in all three roles:
+           filled-button surface, text on cards, text on info panels). */
+        html.dark {
+            /* Surfaces */
+            --color-background: #0A1424;
+            --color-card: #11203F;
+            --color-muted: #182A4D;
+            --color-overlay: rgba(0, 0, 0, 0.65);
+
+            /* Text */
+            --color-foreground: #F2E5BE;
+            --color-heading: #6B9BD2;
+            --color-label: #D9C994;
+            --color-muted-foreground: #B5A988;
+            --color-subtle-foreground: #9C9070;
+            --color-disabled: #56688A;
+
+            /* Brand */
+            --color-primary: #E17983;
+            --color-primary-hover: #E98D96;
+            --color-primary-foreground: #060E1A;
+            --color-secondary: #2A3D60;
+            --color-secondary-foreground: #F2E5BE;
+            --color-footer-link: #D4AF67;
+            --color-accent: #D4AF67;
+            --color-accent-foreground: #060E1A;
+
+            /* Neutrals */
+            --color-neutral-500: #B5A988;
+            --color-neutral-600: #C9BD96;
+
+            /* Borders */
+            --color-border: #233A5C;
+            --color-border-soft: #1F345C;
+            --color-border-strong: #34507A;
+
+            /* Status */
+            --color-status-fresh: #35A469;
+            --color-status-fresh-hover: #2F8F5C;
+            --color-status-stale: #DD6B6B;
+            --color-status-stale-hover: #C94F4F;
+            --color-status-stale-text: #E8A1A1;
+            --color-status-stale-bg: #3B1A1A;
+            --color-status-stale-border: #5E2B2B;
+            --color-status-aging-bg: #3A2E14;
+            --color-status-aging-border: #57431C;
+            --color-status-aging-text: #E7C87F;
+            --color-status-aging-strong: #D4AF67;
+            --color-status-info: #6B9BD2;
+            --color-info-bg: #16294A;
+            --color-info-bg-strong: #1B3357;
+
+            /* Focus */
+            --color-ring: rgba(225, 121, 131, 0.45);
+            --color-ring-soft: rgba(225, 121, 131, 0.15);
+
+            /* Shadows (guide dark tier) */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(242, 229, 190, 0.04);
+            --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(242, 229, 190, 0.04);
+            --shadow-float: 0 2px 4px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.45);
+            --shadow-lg: 0 18px 52px rgba(0, 0, 0, 0.55);
+            --shadow-primary: 0 4px 12px rgba(225, 121, 131, 0.3);
+            --shadow-primary-soft: 0 4px 12px rgba(225, 121, 131, 0.25);
+            --shadow-primary-lg: 0 4px 14px rgba(225, 121, 131, 0.32);
+            --shadow-destructive: 0 4px 12px rgba(221, 107, 107, 0.3);
+        }
+
+        /* Paper never goes dark: printing re-asserts the light values. */
+        @media print {
+            html.dark {
+            /* Surfaces */
+            --color-background: #F8F4E8;
+            --color-card: #FFFCF4;
+            --color-muted: #F2EBD4;
+            --color-overlay: rgba(10, 20, 36, 0.55);
+
+            /* Text */
+            --color-foreground: #1A1610;
+            --color-heading: #0F1F3D;
+            --color-label: #3A3328;
+            --color-muted-foreground: #5C5340;
+            --color-subtle-foreground: #776C4F;
+            --color-disabled: #A89A72;
+
+            /* Brand */
+            --color-primary: #B82230;
+            --color-primary-hover: #971826;
+            --color-primary-foreground: #FFFCF4;
+            --color-secondary: #0F1F3D;            /* footer / chrome surface */
+            --color-secondary-foreground: #F2E5BE;
+            --color-footer-link: #D4AF67;
+            --color-accent: #B89042;
+            --color-accent-foreground: #181410;
+
+            /* Neutrals */
+            --color-neutral-500: #5C5340;
+            --color-neutral-600: #3A3328;
+
+            /* Borders */
+            --color-border: #DDD3B5;
+            --color-border-soft: #E7DFC2;
+            --color-border-strong: #C9BD96;
+
+            /* Status */
+            --color-status-fresh: #2F8F5C;
+            --color-status-fresh-hover: #256F48;
+            --color-status-stale: #B83232;
+            --color-status-stale-hover: #8F2626;
+            --color-status-stale-text: #8F2626;
+            --color-status-stale-bg: #F8E5DF;
+            --color-status-stale-border: #E9BFB4;
+            --color-status-aging-bg: #F9EBC8;
+            --color-status-aging-border: #E5CE93;
+            --color-status-aging-text: #7A4A0F;
+            --color-status-aging-strong: #8A5312;
+            --color-status-info: #2F5FA8;
+            --color-info-bg: #E9EEF6;
+            --color-info-bg-strong: #D8E2F1;
+
+            /* Focus */
+            --color-ring: rgba(184, 34, 48, 0.35);
+            --color-ring-soft: rgba(184, 34, 48, 0.12);
+
+            /* Shadows (warm ink, per guide light tier) */
+            --shadow-sm: 0 1px 2px rgba(26, 22, 16, 0.05), 0 0 0 1px rgba(26, 22, 16, 0.04);
+            --shadow-card: 0 1px 2px rgba(26, 22, 16, 0.05), 0 0 0 1px rgba(26, 22, 16, 0.04);
+            --shadow-float: 0 2px 4px rgba(26, 22, 16, 0.06), 0 10px 28px rgba(26, 22, 16, 0.08);
+            --shadow-lg: 0 18px 52px rgba(26, 22, 16, 0.20);
+            --shadow-primary: 0 4px 12px rgba(184, 34, 48, 0.25);
+            --shadow-primary-soft: 0 4px 12px rgba(184, 34, 48, 0.20);
+            --shadow-primary-lg: 0 4px 14px rgba(184, 34, 48, 0.28);
+            --shadow-destructive: 0 4px 12px rgba(184, 50, 50, 0.30);
+            }
+            html .theme-toggle { display: none; }
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 950;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            background-color: var(--color-card);
+            color: var(--color-heading);
+            border: 1px solid var(--color-border-strong);
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: var(--shadow-float);
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--color-ring);
+        }
+
+        .theme-toggle .theme-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .theme-toggle .icon-sun { display: none; }
+        html.dark .theme-toggle .icon-moon { display: none; }
+        html.dark .theme-toggle .icon-sun { display: block; }
 
         * {
             margin: 0;
@@ -1061,6 +1251,12 @@
             });
         });
 
+        // Theme toggle (dark default per Semper style guide; preference stored locally)
+        function toggleTheme() {
+            const dark = document.documentElement.classList.toggle('dark');
+            try { localStorage.setItem('semper_theme', dark ? 'dark' : 'light'); } catch (e) {}
+        }
+
         // Service Type Definitions from PAA 04-25
         const SERVICE_TYPES = {
             "Regular Army": { creditable: true, category: "Active" },
@@ -1815,6 +2011,13 @@ ${timeLossSectionHTML}
         }
 
     </script>
+
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Switch between dark and light theme" title="Switch between dark and light theme">
+        <svg class="theme-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg class="theme-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
 
     <!-- Floating Feedback Button -->
     <a class="feedback-fab feedback-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share feedback about this calculator (opens external form)">

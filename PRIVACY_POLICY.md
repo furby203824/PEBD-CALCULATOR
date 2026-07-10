@@ -70,7 +70,7 @@ Accessing these links directs you away from this Tool. Their privacy policies go
 ## 5. Browser Functionality
 
 The Tool uses standard browser features:
-- **Local Storage:** Used ONLY to remember that you accepted the Terms of Service (a true/false flag and the acceptance timestamp). No calculation data, service dates, or personal information is ever stored. Clearing your browser data removes the flag; you will simply be asked to accept the terms again.
+- **Local Storage:** Used ONLY to remember two on-device settings: that you accepted the Terms of Service (a true/false flag and the acceptance timestamp) and your dark/light theme preference. No calculation data, service dates, or personal information is ever stored. Clearing your browser data removes both; you will simply be asked to accept the terms again and the default theme returns.
 - **Session Storage:** NOT used
 - **IndexedDB:** NOT used
 - **Cookies:** NOT used
