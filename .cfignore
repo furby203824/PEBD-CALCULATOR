@@ -1,0 +1,14 @@
+# Exclude non-production files from cf push. Staticfile buildpack serves everything uploaded.
+index v*.html
+SOP.docx
+CODEBASE-ANALYSIS.md
+COMPLIANCE_CHANGELOG.md
+COMPLIANCE_IMPLEMENTATION_SUMMARY.md
+README.md
+test-calculations.js
+semper-tokens.json
+.claude/
+.github/
+.gitignore
+.nojekyll
+manifest.yml

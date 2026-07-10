@@ -1,0 +1,9 @@
+---
+applications:
+  - name: pebd-calculator
+    memory: 128M
+    disk_quota: 256M
+    instances: 1
+    path: .
+    buildpacks:
+      - staticfile_buildpack
