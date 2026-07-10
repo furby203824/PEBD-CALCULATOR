@@ -521,6 +521,7 @@
             padding: 8px;
             border-bottom: 1px solid var(--color-border);
             font-size: 0.85rem;
+            vertical-align: top;
         }
 
         td input {
@@ -753,6 +754,7 @@
             .grid-3 {
                 grid-template-columns: 1fr;
             }
+
         }
 
         .feedback-prompt {
@@ -1038,6 +1040,34 @@
             margin-left: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+
+        /* Mobile chrome fixes (last in the sheet so they win the cascade):
+           the theme toggle anchors to the top of the page and scrolls away
+           instead of floating over form fields; the feedback button leaves
+           fixed positioning and flows as a centered button above the footer
+           so it can never cover inputs or buttons mid-scroll. */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: absolute;
+            }
+
+            .feedback-fab {
+                position: static;
+                display: flex;
+                width: max-content;
+                margin: 24px auto 0;
+            }
+
+            .legal-modal {
+                width: calc(100vw - 32px);
+                padding: 24px;
+            }
+
+            td input, td select {
+                min-width: 96px;
+            }
         }
 
         /* Guide section 8: motion gates behind prefers-reduced-motion */
@@ -1841,7 +1871,7 @@ function readHandoffParams() {
     <!-- Floating Feedback Button -->
     <a class="feedback-fab feedback-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share feedback about this calculator (opens external form)">
         <svg class="feedback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-        Feedback
+        <span class="feedback-fab-label">Feedback</span>
     </a>
 
     <!-- Legal Footer -->
