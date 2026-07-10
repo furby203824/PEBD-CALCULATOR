@@ -6,72 +6,82 @@
     <title>Marine Corps PEBD Calculator by Semper Admin</title>
     <style>
         /*
-         * Semper Admin token layer - Phase A (structure only).
-         * Semantic names follow SEMPER-STYLE-GUIDE.md; values preserve the
-         * established navy/slate look exactly. A future theme pass swaps
-         * values here without touching any selector below.
+         * Semper Admin token layer - Phase B (Semper light palette).
+         * Semantic names follow SEMPER-STYLE-GUIDE.md v1.2. Values are the
+         * guide's light-mode set: parchment surfaces, USMC scarlet primary,
+         * marine blue chrome, brass accents. All text pairs verified WCAG AA
+         * (subtle-foreground darkened from the guide's #8A7E63 to #776C4F to
+         * clear 4.5:1 on cards). A dark-mode pass swaps values here only.
          */
         :root {
             /* Surfaces */
-            --color-background: #f8fafc;
-            --color-card: #ffffff;
-            --color-muted: #f8fafc;
-            --color-overlay: rgba(0, 0, 0, 0.5);
+            --color-background: #F8F4E8;
+            --color-card: #FFFCF4;
+            --color-muted: #F2EBD4;
+            --color-overlay: rgba(10, 20, 36, 0.55);
 
             /* Text */
-            --color-foreground: #334155;
-            --color-heading: #1e3a8a;
-            --color-label: #374151;
-            --color-muted-foreground: #64748b;
-            --color-subtle-foreground: #94a3b8;
-            --color-disabled: #9ca3af;
+            --color-foreground: #1A1610;
+            --color-heading: #0F1F3D;
+            --color-label: #3A3328;
+            --color-muted-foreground: #5C5340;
+            --color-subtle-foreground: #776C4F;
+            --color-disabled: #A89A72;
 
             /* Brand */
-            --color-primary: #1e40af;
-            --color-primary-hover: #1d4ed8;
-            --color-primary-foreground: #ffffff;
-            --color-secondary: #1e3a8a;            /* footer / chrome surface */
-            --color-secondary-foreground: #e5e7eb;
-            --color-footer-link: #93c5fd;
+            --color-primary: #B82230;
+            --color-primary-hover: #971826;
+            --color-primary-foreground: #FFFCF4;
+            --color-secondary: #0F1F3D;            /* footer / chrome surface */
+            --color-secondary-foreground: #F2E5BE;
+            --color-footer-link: #D4AF67;
+            --color-accent: #B89042;
+            --color-accent-foreground: #181410;
 
             /* Neutrals */
-            --color-neutral-500: #6b7280;
-            --color-neutral-600: #4b5563;
+            --color-neutral-500: #5C5340;
+            --color-neutral-600: #3A3328;
 
             /* Borders */
-            --color-border: #e5e7eb;
-            --color-border-soft: #e2e8f0;
-            --color-border-strong: #cbd5e1;
+            --color-border: #DDD3B5;
+            --color-border-soft: #E7DFC2;
+            --color-border-strong: #C9BD96;
 
             /* Status */
-            --color-status-fresh: #059669;
-            --color-status-fresh-hover: #047857;
-            --color-status-stale: #dc2626;
-            --color-status-stale-hover: #b91c1c;
-            --color-status-stale-text: #991b1b;
-            --color-status-stale-bg: #fef2f2;
-            --color-status-stale-border: #fecaca;
-            --color-status-aging-bg: #fef3c7;
-            --color-status-aging-border: #fde68a;
-            --color-status-aging-text: #92400e;
-            --color-status-aging-strong: #b45309;
-            --color-status-info: #3b82f6;
-            --color-info-bg: #eff6ff;
-            --color-info-bg-strong: #dbeafe;
+            --color-status-fresh: #2F8F5C;
+            --color-status-fresh-hover: #256F48;
+            --color-status-stale: #B83232;
+            --color-status-stale-hover: #8F2626;
+            --color-status-stale-text: #8F2626;
+            --color-status-stale-bg: #F8E5DF;
+            --color-status-stale-border: #E9BFB4;
+            --color-status-aging-bg: #F9EBC8;
+            --color-status-aging-border: #E5CE93;
+            --color-status-aging-text: #7A4A0F;
+            --color-status-aging-strong: #8A5312;
+            --color-status-info: #2F5FA8;
+            --color-info-bg: #E9EEF6;
+            --color-info-bg-strong: #D8E2F1;
 
             /* Focus */
-            --color-ring: rgba(59, 130, 246, 0.4);
-            --color-ring-soft: rgba(59, 130, 246, 0.1);
+            --color-ring: rgba(184, 34, 48, 0.35);
+            --color-ring-soft: rgba(184, 34, 48, 0.12);
 
-            /* Shadows */
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-float: 0 2px 8px rgba(15, 23, 42, 0.12);
-            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
-            --shadow-primary: 0 4px 12px rgba(30, 64, 175, 0.3);
-            --shadow-primary-soft: 0 4px 12px rgba(30, 64, 175, 0.25);
-            --shadow-primary-lg: 0 4px 14px rgba(30, 64, 175, 0.3);
-            --shadow-destructive: 0 4px 12px rgba(220, 38, 38, 0.3);
+            /* Shadows (warm ink, per guide light tier) */
+            --shadow-sm: 0 1px 2px rgba(26, 22, 16, 0.05), 0 0 0 1px rgba(26, 22, 16, 0.04);
+            --shadow-card: 0 1px 2px rgba(26, 22, 16, 0.05), 0 0 0 1px rgba(26, 22, 16, 0.04);
+            --shadow-float: 0 2px 4px rgba(26, 22, 16, 0.06), 0 10px 28px rgba(26, 22, 16, 0.08);
+            --shadow-lg: 0 18px 52px rgba(26, 22, 16, 0.20);
+            --shadow-primary: 0 4px 12px rgba(184, 34, 48, 0.25);
+            --shadow-primary-soft: 0 4px 12px rgba(184, 34, 48, 0.20);
+            --shadow-primary-lg: 0 4px 14px rgba(184, 34, 48, 0.28);
+            --shadow-destructive: 0 4px 12px rgba(184, 50, 50, 0.30);
+        }
+
+        /* Guide section 10: selection */
+        ::selection {
+            background: var(--color-accent);
+            color: var(--color-accent-foreground);
         }
 
         * {
@@ -163,7 +173,7 @@
         
         input:focus, select:focus {
             outline: none;
-            border-color: var(--color-status-info);
+            border-color: var(--color-primary);
             box-shadow: 0 0 0 3px var(--color-ring-soft);
         }
         
