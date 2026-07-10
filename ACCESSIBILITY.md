@@ -1,5 +1,5 @@
 # Accessibility Statement
-Marine Corps PEBD Calculator by Semper Admin
+Marine Corps PEBD Calculator & Basic Pay Comparison by Semper Admin
 
 **Effective Date:** June 2, 2026
 
@@ -7,7 +7,7 @@ Marine Corps PEBD Calculator by Semper Admin
 
 ## Commitment to Accessibility
 
-The Marine Corps PEBD Calculator is committed to ensuring digital accessibility for all users, including those with disabilities. We strive to meet Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards.
+The Marine Corps PEBD Calculator and its companion Basic Pay Comparison page are committed to ensuring digital accessibility for all users, including those with disabilities. We strive to meet Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards on both pages.
 
 ---
 
@@ -27,11 +27,16 @@ The Marine Corps PEBD Calculator is committed to ensuring digital accessibility 
 - Status messages announced to screen readers
 
 ### Visual Accessibility
-- Sufficient color contrast (WCAG AA minimum 4.5:1 for text)
+- Dark and light themes: dark navy is the default; a keyboard-accessible toggle (top right of every page) switches to light parchment, and the preference is remembered on your device
+- Sufficient color contrast in BOTH themes: every text/background pair is computed against WCAG AA (minimum 4.5:1 for normal text, 3:1 for large text)
 - No color used alone to convey information (creditable/not creditable uses text + color)
+- Printing always uses the light theme regardless of the on-screen setting
 - Responsive design works on mobile, tablet, and desktop
 - Text is resizable (browser zoom, no fixed font sizes)
 - Focus indicators visible when tabbing through elements
+
+### Motion
+- All animations and transitions respect the operating system's "reduce motion" setting (`prefers-reduced-motion`); with it enabled, transitions are effectively disabled on both pages
 
 ### Form Accessibility
 - All input fields have associated labels
@@ -115,7 +120,7 @@ If you encounter accessibility barriers:
 
 1. **Describe the issue:** What task were you trying to complete?
 2. **Provide your setup:** Browser, OS, assistive technology used
-3. **Contact us:** https://linktr.ee/semperadmin
+3. **Report it:** Use the Feedback button on any page, or the form at https://forms.osi.apps.mil/r/k5QWzJDL9P (do not include personal information from official records)
 
 We are committed to resolving accessibility issues within 5 business days.
 
@@ -140,11 +145,11 @@ We regularly test the Tool for accessibility and update as follows:
 
 ---
 
-**Last Updated:** June 2, 2026
+**Last Updated:** July 10, 2026
 **Next Review:** June 2, 2027
 
 ---
 
-If you have questions about this Accessibility Statement, contact Semper Admin via https://linktr.ee/semperadmin.
+If you have questions about this Accessibility Statement, reach Semper Admin through the Feedback form linked from every page.
 
 **Commitment:** All service members and veterans deserve equal access to benefits tools and calculators.

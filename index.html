@@ -14,6 +14,26 @@
         })();
     </script>
     <style>
+        /* Self-hosted fonts (guide section 3) - no runtime font CDN requests.
+           Files live in assets/fonts/; system stacks cover a saved-offline copy. */
+        @font-face {
+            font-family: 'Inter Variable';
+            font-style: normal;
+            font-display: swap;
+            font-weight: 100 900;
+            src: url('assets/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+            unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'Bebas Neue';
+            font-style: normal;
+            font-display: swap;
+            font-weight: 400;
+            src: url('assets/fonts/bebas-neue-latin-400-normal.woff2') format('woff2');
+            unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+        }
+
         /*
          * Semper Admin token layer - Phase B (Semper light palette).
          * Semantic names follow SEMPER-STYLE-GUIDE.md v1.2. Values are the
@@ -23,6 +43,12 @@
          * clear 4.5:1 on cards). A dark-mode pass swaps values here only.
          */
         :root {
+            /* Type (guide section 3) */
+            --font-display: 'Bebas Neue', 'Oswald', system-ui, sans-serif;
+            --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+            /* Hero keyword gradient (9.1); endpoints hold 3:1 large-text AA */
+            --gradient-accent: linear-gradient(95deg, #B82230 0%, #D14150 45%, #8E6E2E 100%);
+
             /* Surfaces */
             --color-background: #F8F4E8;
             --color-card: #FFFCF4;
@@ -100,6 +126,8 @@
            guide's #D14150 to #E17983 to hold WCAG AA in all three roles:
            filled-button surface, text on cards, text on info panels). */
         html.dark {
+            --gradient-accent: linear-gradient(95deg, #E17983 0%, #E98D96 45%, #D4AF67 100%);
+
             /* Surfaces */
             --color-background: #0A1424;
             --color-card: #11203F;
@@ -274,6 +302,53 @@
         html.dark .theme-toggle .icon-moon { display: none; }
         html.dark .theme-toggle .icon-sun { display: block; }
 
+        /* Guide section 9.1: gradient accent on a single hero keyword */
+        .gradient-accent {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        /* Guide section 9.2: ambient bloom behind the header, dark mode only */
+        .header {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            max-width: 720px;
+            height: 320px;
+            background: radial-gradient(ellipse at center,
+                rgba(225, 121, 131, 0.10) 0%,
+                rgba(42, 61, 96, 0.08) 40%,
+                transparent 75%);
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        html.dark .header::before {
+            opacity: 1;
+        }
+
+        /* Guide section 9.3: floating pill chrome gets backdrop blur */
+        .theme-toggle,
+        .feedback-fab {
+            background: color-mix(in srgb, var(--color-card) 92%, transparent);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -281,7 +356,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-body);
             background-color: var(--color-background);
             color: var(--color-foreground);
             line-height: 1.6;
@@ -304,8 +379,11 @@
         
         .title {
             color: var(--color-heading);
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            line-height: 1.15;
             margin-bottom: 10px;
         }
         
@@ -326,7 +404,9 @@
         .section-title {
             color: var(--color-heading);
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.005em;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -487,8 +567,11 @@
         }
         
         .pebd-result {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
             color: var(--color-primary);
         }
         
@@ -948,6 +1031,17 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
+        /* Guide section 8: motion gates behind prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1023,7 +1117,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) CALCULATOR</h1>
+            <h1 class="title">MARINE CORPS PAY ENTRY BASE DATE (PEBD) <span class="gradient-accent">CALCULATOR</span></h1>
             <p class="subtitle">by Semper Admin - PAA 04-25 Compliant (with Time Loss)</p>
             <p Reference:><a href="https://usmc.sharepoint-mil.us/sites/dcmra_mra_mi_missa/Lists/PAA/DispForm.aspx?ID=127&e=qD8Oj2" target="_blank" style="font-size: 0.9rem; color: var(--color-muted-foreground); text-decoration: underline;">PAA 04-25 - Administrative Guidance on Creditable Service and PEBD</a>
 
@@ -1243,7 +1337,7 @@
 
     <script>
         // Feedback form — replace with your form's URL (all feedback links on the page use this)
-        const FEEDBACK_FORM_URL = "REPLACE_WITH_YOUR_FEEDBACK_FORM_URL";
+        const FEEDBACK_FORM_URL = "https://forms.osi.apps.mil/r/k5QWzJDL9P";
 
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.feedback-link').forEach(link => {
